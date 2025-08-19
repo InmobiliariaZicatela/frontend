@@ -1,0 +1,666 @@
+// ============================================================================
+// PROPERTIES LIST COMPONENT STYLES
+// ============================================================================
+
+// PropertiesList-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// PropertiesList-specific variables
+$properties-list-gap: 40px;
+$search-section-gap: 20px;
+$properties-grid-gap: 30px;
+$card-border-radius: 12px;
+$card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+// Mixin for properties-list responsive breakpoints
+@mixin properties-list-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == extra-large {
+    @media (min-width: #{$breakpoint-xl + 1px}) {
+      @content;
+    }
+  }
+}
+
+// PropertiesList container styles
+.properties-list-container {
+  padding-left: 0;
+  padding-right: 0;
+  gap: $properties-list-gap;
+
+  // Add small padding on desktop and larger screens
+  @media (min-width: #{$breakpoint-md + 1px}) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  // Preserve global container padding on tablet and mobile
+  @include properties-list-responsive(tablet) {
+    // Uses global container padding: 40px 60px
+  }
+
+  @include properties-list-responsive(mobile) {
+    // Uses global container padding: 30px 20px
+  }
+}
+
+// Search section styles
+.properties-search-section {
+  gap: $search-section-gap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.properties-search-inputs {
+  gap: $search-section-gap;
+  width: 100%;
+  max-width: 600px;
+  flex: 1;
+}
+
+// Clear filters button styles
+.clear-filters-button {
+  background-color: transparent;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+  border-radius: $border-radius;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $transition;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 0;
+  line-height: 1.5;
+  height: auto;
+  box-sizing: border-box;
+
+  &:hover:not(:disabled) {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @include properties-list-responsive(mobile) {
+    padding: 12px 16px; // Adjusted for mobile to match inputs
+    font-size: 13px;
+  }
+}
+
+.properties-search-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+
+  .properties-search-input {
+    width: 100%;
+    padding-right: 40px;
+    background-color: rgba(#e0ecfd, 0.5);
+    border: 2px solid rgba(#e0ecfd, 0.5);
+    border-radius: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: $primary-color;
+
+    transition: $transition;
+
+    &::placeholder {
+      color: $primary-color;
+      opacity: 0.5;
+    }
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      color: $primary-color;
+    }
+  }
+
+  .properties-search-icon {
+    position: absolute;
+    right: 12px;
+    top: 48%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 1;
+  }
+}
+
+// Results heading styles
+.properties-results-heading {
+  h2 {
+    color: $primary-color;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 0;
+
+    span {
+      font-weight: 700;
+      color: $primary-color;
+    }
+  }
+}
+
+// Properties grid styles
+.properties-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $properties-grid-gap;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Property card styles
+.properties-card {
+  overflow: hidden;
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  &:hover .properties-card-image {
+    transform: scale(1.05);
+  }
+}
+
+// Property card image styles
+.properties-card-image-container {
+  border-radius: $card-border-radius;
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+  width: 100%;
+
+  .properties-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: $transition;
+  }
+}
+
+// Property card details styles
+.properties-card-details {
+  padding: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.properties-card-info {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .properties-card-name {
+    color: $primary-color;
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .properties-card-address {
+    color: $secondary-color;
+    font-weight: 400;
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include properties-list-responsive(mobile) {
+  .properties-list-container {
+    gap: 2rem;
+  }
+
+  .properties-search-section {
+    flex-direction: column !important;
+    gap: 1rem;
+  }
+
+  .properties-search-inputs {
+    flex-direction: column !important;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .properties-search-input-wrapper {
+    width: 100%;
+    min-width: auto;
+
+    .properties-search-input {
+      font-size: 16px;
+      padding: 12px 16px;
+      padding-right: 40px;
+    }
+  }
+
+  .properties-results-heading {
+    text-align: center;
+
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .properties-card {
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .properties-card-image-container {
+    height: 200px;
+  }
+
+  .properties-card-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .properties-card-info {
+    .properties-card-name {
+      font-size: 1rem;
+    }
+
+    .properties-card-address {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Small tablet / Large mobile styles (577px - 650px) - single column
+@media (min-width: 577px) and (max-width: 650px) {
+  .properties-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .properties-list-container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include properties-list-responsive(tablet) {
+  .properties-list-container {
+    gap: 2rem;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .properties-search-section {
+    flex-direction: column !important;
+    gap: 1.5rem;
+  }
+
+  .properties-search-inputs {
+    flex-direction: row !important;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .properties-search-input-wrapper {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .properties-results-heading {
+    text-align: center;
+
+    h2 {
+      font-size: 1.375rem;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .properties-card-image-container {
+    height: 220px;
+  }
+
+  .properties-card-info {
+    .properties-card-name {
+      font-size: 1.0625rem;
+    }
+
+    .properties-card-address {
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include properties-list-responsive(desktop) {
+  .properties-list-container {
+    gap: 2rem;
+  }
+
+  .properties-search-section {
+    gap: 1.5rem;
+  }
+
+  .properties-search-inputs {
+    gap: 1.5rem;
+    max-width: 500px;
+  }
+
+  .properties-results-heading {
+    h2 {
+      font-size: 1.375rem;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .properties-card-image-container {
+    height: 240px;
+  }
+}
+
+// Large Desktop styles (993px - 1200px)
+@include properties-list-responsive(large-desktop) {
+  .properties-list-container {
+    gap: 2rem;
+  }
+
+  .properties-search-section {
+    gap: 2rem;
+  }
+
+  .properties-search-inputs {
+    gap: 2rem;
+    max-width: 600px;
+  }
+
+  .properties-results-heading {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .properties-card-image-container {
+    height: 250px;
+  }
+}
+
+// Extra Large Desktop styles (1201px and above)
+@include properties-list-responsive(extra-large) {
+  .properties-list-container {
+    gap: 2rem;
+  }
+
+  .properties-search-section {
+    gap: 2.5rem;
+  }
+
+  .properties-search-inputs {
+    gap: 2.5rem;
+    max-width: 700px;
+  }
+
+  .properties-results-heading {
+    h2 {
+      font-size: 1.625rem;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.5rem;
+  }
+
+  .properties-card-image-container {
+    height: 260px;
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in animation for cards
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Stagger animation for property cards
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Apply stagger animation to cards
+.properties-card {
+  animation: staggerFadeIn 0.5s ease-out forwards;
+
+  @for $i from 1 through 12 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR PROPERTIES LIST
+// ============================================================================
+
+// PropertiesList spacing utilities
+.properties-list-gap-sm {
+  gap: 1rem;
+}
+
+.properties-list-gap-md {
+  gap: 2rem;
+}
+
+.properties-list-gap-lg {
+  gap: 3rem;
+}
+
+// Grid utilities
+.properties-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.properties-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.properties-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.properties-list-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect with enhanced shadows
+.properties-list-card-enhanced {
+  .properties-card {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba($primary-color, 0.1);
+
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.properties-list-border {
+  .properties-card {
+    border: 2px solid transparent;
+    border-radius: $card-border-radius;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated cards
+.properties-list-animated {
+  .properties-card {
+    animation: float 6s ease-in-out infinite;
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 2}s;
+      }
+    }
+  }
+}
+
+// Float animation
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// ============================================================================
+// LOADING STATES
+// ============================================================================
+
+.properties-list-loading {
+  .properties-card {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      z-index: 1;
+    }
+
+    .properties-card-image,
+    .properties-card-details {
+      opacity: 0;
+    }
+
+    &.loaded {
+      &::before {
+        display: none;
+      }
+
+      .properties-card-image,
+      .properties-card-details {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+    }
+  }
+}
+
+// Loading animation
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

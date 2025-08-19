@@ -1,0 +1,332 @@
+// ============================================================================
+// PROPERTY MAP COMPONENT STYLES
+// ============================================================================
+
+// PropertyMap-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// PropertyMap-specific variables
+$property-map-gap: 30px;
+$map-height: 400px;
+$card-border-radius: 12px;
+$card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+// Mixin for property-map responsive breakpoints
+@mixin property-map-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == extra-large {
+    @media (min-width: #{$breakpoint-xl + 1px}) {
+      @content;
+    }
+  }
+}
+
+// PropertyMap container styles
+.property-map-container {
+  gap: $property-map-gap;
+
+  // Add small padding on desktop and larger screens
+  @media (min-width: #{$breakpoint-md + 1px}) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  // Preserve global container padding on tablet and mobile
+  @include property-map-responsive(tablet) {
+    // Uses global container padding: 40px 60px
+  }
+
+  @include property-map-responsive(mobile) {
+    // Uses global container padding: 30px 20px
+  }
+}
+
+// Map header styles
+.property-map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+
+  @include property-map-responsive(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+.property-map-title-section {
+  flex: 1;
+
+  .property-map-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $primary-color;
+    margin-bottom: 8px;
+    line-height: 1.2;
+
+    @include property-map-responsive(mobile) {
+      font-size: 1.5rem;
+      gap: 8px;
+    }
+  }
+
+  .property-map-address {
+    color: $secondary-color;
+    margin: 0;
+    font-weight: 500;
+
+    @include property-map-responsive(mobile) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.property-map-directions-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @include property-map-responsive(mobile) {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Map wrapper styles
+.property-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: $map-height;
+  border-radius: $card-border-radius;
+  overflow: hidden;
+  box-shadow: $card-shadow;
+  background-color: #f8f9fa;
+
+  @include property-map-responsive(tablet) {
+    height: 350px;
+  }
+
+  @include property-map-responsive(mobile) {
+    height: 300px;
+  }
+}
+
+// Loading state styles
+.property-map-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background-color: #f8f9fa;
+  z-index: 10;
+
+  .spinning {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  p {
+    color: $secondary-color;
+    margin: 0;
+  }
+}
+
+// Map iframe styles
+.property-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: $card-border-radius;
+  transition: $transition;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+
+// Fallback styles
+.property-map-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: $card-border-radius;
+
+  .property-map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    padding: 40px 20px;
+
+    h3 {
+      color: $primary-color;
+      margin: 0;
+    }
+
+    p {
+      color: $secondary-color;
+      margin: 0;
+      max-width: 300px;
+    }
+  }
+}
+
+// Error state styles
+.property-map-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: $card-border-radius;
+  border: 2px dashed rgba($secondary-color, 0.3);
+
+  h3 {
+    color: $primary-color;
+    margin: 0;
+  }
+
+  p {
+    color: $secondary-color;
+    margin: 0;
+    max-width: 400px;
+  }
+}
+
+// Map info styles
+.property-map-info {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  border: 1px solid rgba($primary-color, 0.1);
+
+  @include property-map-responsive(mobile) {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+.property-map-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $secondary-color;
+  font-weight: 500;
+
+  @include property-map-responsive(mobile) {
+    justify-content: center;
+  }
+
+  span {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+}
+
+// Responsive adjustments
+@include property-map-responsive(mobile) {
+  .property-map-container {
+    gap: 20px;
+  }
+
+  .property-map-header {
+    gap: 12px;
+  }
+
+  .property-map-title {
+    font-size: 1.3rem;
+  }
+
+  .property-map-address {
+    font-size: 0.85rem;
+  }
+
+  .property-map-directions-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+// Tablet adjustments
+@include property-map-responsive(tablet) {
+  .property-map-container {
+    gap: 25px;
+  }
+
+  .property-map-header {
+    gap: 15px;
+  }
+}
+
+// Desktop adjustments
+@include property-map-responsive(desktop) {
+  .property-map-container {
+    gap: 30px;
+  }
+}
+
+// Large desktop adjustments
+@include property-map-responsive(large-desktop) {
+  .property-map-container {
+    gap: 35px;
+  }
+}
+
+// Extra large desktop adjustments
+@include property-map-responsive(extra-large) {
+  .property-map-container {
+    gap: 40px;
+  }
+}

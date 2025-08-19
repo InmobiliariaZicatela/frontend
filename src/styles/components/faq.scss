@@ -1,0 +1,441 @@
+// ============================================================================
+// FAQ COMPONENT STYLES
+// ============================================================================
+
+// FAQ-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// FAQ-specific variables
+$faq-gap: 40px;
+$faq-item-gap: 0;
+$faq-item-padding: 1.25rem 1rem;
+$faq-border-color: rgba(0, 0, 0, 0.1);
+$faq-icon-size: 20px;
+$faq-icon-color: $primary-color;
+$faq-hover-bg: rgba($primary-color, 0.05);
+
+// Mixin for FAQ responsive breakpoints
+@mixin faq-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+// Mixin for FAQ animations
+@mixin faq-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// FAQ container styles
+.faq-container {
+  gap: $faq-gap;
+  margin: 0 auto;
+}
+
+// FAQ header styles
+.faq-header {
+  width: 80%;
+  text-align: center;
+
+  .faq-title {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-subtitle {
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+// FAQ items container styles
+.faq-items-container {
+  width: 100%;
+  gap: $faq-item-gap;
+}
+
+// FAQ item styles
+.faq-item {
+  background-color: transparent;
+  transition: $transition;
+  overflow: hidden;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  // Animation delay for staggered effect
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// FAQ question styles
+.faq-question {
+  padding: $faq-item-padding;
+  cursor: pointer;
+  transition: $transition;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: transparent;
+
+  &:hover {
+    background-color: $faq-hover-bg;
+  }
+
+  .faq-question-text {
+    color: $primary-color;
+    line-height: 1.4;
+    text-align: left;
+    margin: 0;
+    flex: 1;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    transition: $transition;
+    color: $faq-icon-color;
+    transform: rotate(0deg); // Start pointing right
+
+    svg {
+      width: $faq-icon-size;
+      height: $faq-icon-size;
+    }
+  }
+
+  // Icon rotation animation
+  &.active {
+    .faq-icon {
+      transform: rotate(90deg); // Point down when active
+    }
+  }
+}
+
+// FAQ answer styles
+.faq-answer {
+  background-color: transparent;
+  border-top: none;
+  overflow: hidden;
+  transition: $transition;
+  padding: 1rem;
+
+  .faq-answer-content {
+    color: $secondary-color;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include faq-responsive(mobile) {
+  .faq-container {
+    gap: 2rem;
+    padding: 0 1rem;
+
+    // Animation for mobile
+    @include faq-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .faq-header {
+    .faq-title {
+      font-size: 2rem;
+    }
+  }
+
+  .faq-items-container {
+    gap: 0;
+  }
+
+  .faq-question {
+    .faq-icon {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include faq-responsive(tablet) {
+  .faq-container {
+    gap: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .faq-header {
+    .faq-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .faq-items-container {
+    gap: 0;
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include faq-responsive(desktop) {
+  .faq-container {
+    gap: 3rem;
+  }
+
+  .faq-header {
+    .faq-title {
+      font-size: 2.5rem;
+    }
+  }
+
+  .faq-items-container {
+    gap: 0;
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Slide in up animation
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Fade in animation for answers
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Icon rotation animation
+@keyframes rotateIcon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR FAQ
+// ============================================================================
+
+// FAQ spacing utilities
+.faq-gap-sm {
+  gap: 1rem;
+}
+
+.faq-gap-md {
+  gap: 2rem;
+}
+
+.faq-gap-lg {
+  gap: 3rem;
+}
+
+// FAQ layout utilities
+.faq-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.faq-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+// FAQ item utilities
+.faq-item-compact {
+  .faq-question {
+    padding: 1rem 0;
+  }
+
+  .faq-answer {
+    .faq-answer-content {
+      padding: 0 0 1rem 0;
+    }
+  }
+}
+
+.faq-item-spacious {
+  .faq-question {
+    padding: 2rem 0;
+  }
+
+  .faq-answer {
+    .faq-answer-content {
+      padding: 0 0 2rem 0;
+    }
+  }
+}
+
+// Icon size utilities
+.faq-icon-sm {
+  .faq-icon {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.faq-icon-md {
+  .faq-icon {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.faq-icon-lg {
+  .faq-icon {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// Color utilities
+.faq-primary {
+  .faq-question-text {
+    color: $primary-color;
+  }
+
+  .faq-icon {
+    color: $primary-color;
+  }
+}
+
+.faq-secondary {
+  .faq-question-text {
+    color: $secondary-color;
+  }
+
+  .faq-icon {
+    color: $secondary-color;
+  }
+}
+
+// Hover effect utilities
+.faq-hover-none {
+  .faq-question {
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.faq-hover-scale {
+  .faq-item {
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.faq-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect with enhanced shadows
+.faq-card-enhanced {
+  gap: 1.5rem;
+
+  .faq-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba($primary-color, 0.1);
+
+    .faq-question {
+      border-bottom: 1px solid $faq-border-color;
+    }
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.faq-border {
+  .faq-item {
+    border: 2px solid transparent;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated items
+.faq-animated {
+  .faq-item {
+    animation: float 6s ease-in-out infinite;
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.5}s;
+      }
+    }
+  }
+}
+
+// Float animation
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}

@@ -1,0 +1,651 @@
+@use "sass:color";
+
+// ============================================================================
+// CONTACT US COMPONENT STYLES
+// ============================================================================
+
+// ContactUs-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// ContactUs-specific variables
+$contact-us-gap: 40px;
+$contact-methods-gap: 30px;
+
+$contact-card-width: 40%;
+$contact-card-min-width: 40%;
+
+$contact-icon-size: 50px;
+$contact-icon-inner-size: 22px;
+$header-title-size: 3rem;
+$header-subtitle-size: 1.8rem;
+$header-subtitle-margin-top: -15px;
+
+// Mixin for contact-us responsive breakpoints
+@mixin contact-us-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == extra-large {
+    @media (min-width: #{$breakpoint-xl + 1px}) {
+      @content;
+    }
+  }
+}
+
+// Mixin for contact-us animations
+@mixin contact-us-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// ContactUs container styles
+.contact-us-container {
+  gap: $contact-us-gap;
+}
+
+// Contact methods container styles
+.contact-methods-container {
+  gap: $contact-methods-gap;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+// Contact method card styles
+.contact-method-card {
+  width: $contact-card-width;
+  min-width: $contact-card-min-width;
+  transition: $transition;
+
+  padding: 1rem;
+
+  // Hover effects
+  &:hover {
+    transform: translateY(-3px);
+
+    .contact-icon {
+      background-color: rgba($primary-color, 0.25);
+      transform: scale(1.1);
+    }
+
+    .contact-title {
+      color: color.scale($primary-color, $lightness: -10%);
+    }
+  }
+
+  // Animation delay for staggered effect
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// Contact icon styles
+.contact-icon {
+  width: $contact-icon-size;
+  height: $contact-icon-size;
+  border-radius: 50%;
+  background-color: rgba($primary-color, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: $transition;
+
+  svg {
+    width: $contact-icon-inner-size;
+    height: $contact-icon-inner-size;
+    color: $primary-color;
+  }
+}
+
+// Contact title styles
+.contact-title {
+  width: 100%;
+  color: $primary-color;
+  font-weight: 500;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  transition: $transition;
+}
+
+// Contact description styles
+.contact-description {
+  width: 100%;
+  color: $secondary-color;
+  font-weight: 300;
+  font-size: 0.875rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+  transition: $transition;
+  text-align: left;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// Contact detail styles
+.contact-detail {
+  width: 100%;
+  color: $primary-color;
+  font-weight: 400;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  transition: $transition;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    color: color.scale($primary-color, $lightness: -15%);
+    text-decoration: none;
+  }
+}
+
+// Contact detail container styles
+.contact-detail-container {
+  width: 100%;
+  .contact-detail {
+    margin-bottom: 0.125rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Header section styles
+.contact-header {
+  .contact-header-subtitle {
+    font-size: $header-subtitle-size;
+    margin-bottom: 0;
+    color: $primary-color;
+    font-weight: 400;
+  }
+
+  .contact-header-title {
+    font-size: $header-title-size;
+    margin-top: $header-subtitle-margin-top;
+    color: $primary-color;
+    font-weight: 600;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include contact-us-responsive(mobile) {
+  .contact-us-container {
+    gap: 2rem;
+
+    // Animation for mobile
+    @include contact-us-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .contact-methods-container {
+    flex-direction: column !important;
+    gap: 2rem;
+  }
+
+  .contact-method-card {
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .contact-title {
+      font-size: 1.125rem;
+      width: 100%;
+    }
+
+    .contact-description {
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-detail {
+      align-self: center;
+      font-size: 0.875rem;
+    }
+  }
+
+  .contact-header {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+
+    .contact-header-subtitle {
+      font-size: 1.5rem;
+    }
+
+    .contact-header-title {
+      font-size: 2.5rem;
+    }
+  }
+
+  .contact-detail-container {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+
+    .contact-detail {
+      text-align: center;
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include contact-us-responsive(tablet) {
+  .contact-us-container {
+    gap: 2.5rem;
+  }
+
+  .contact-methods-container {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .contact-method-card {
+    width: 100% !important;
+    align-items: center;
+    min-width: auto;
+    margin: 0 auto;
+
+    .contact-icon {
+      margin: 0 auto 1.5rem;
+      width: 60px;
+      height: 60px;
+
+      svg {
+        width: 26px;
+        height: 26px;
+      }
+    }
+
+    .contact-title {
+      font-size: 1.25rem;
+      text-align: center;
+    }
+
+    .contact-description {
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .contact-detail {
+      font-size: 1rem;
+      text-align: center;
+    }
+  }
+
+  .contact-header {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+
+    .contact-header-subtitle {
+      font-size: 1.75rem;
+    }
+
+    .contact-header-title {
+      font-size: 2.75rem;
+    }
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include contact-us-responsive(desktop) {
+  .contact-methods-container {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .contact-method-card {
+    width: 45% !important;
+    min-width: 220px;
+
+    .contact-icon {
+      width: 45px;
+      height: 45px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .contact-title {
+      font-size: 1rem;
+    }
+
+    .contact-description {
+      font-size: 0.8rem;
+    }
+
+    .contact-detail {
+      font-size: 0.8rem;
+    }
+  }
+
+  .contact-header {
+    .contact-header-subtitle {
+      font-size: 1.6rem;
+    }
+
+    .contact-header-title {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+// Large Desktop styles (993px - 1200px)
+@include contact-us-responsive(large-desktop) {
+  .contact-methods-container {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .contact-method-card {
+    width: 40% !important;
+    min-width: 200px;
+
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .contact-title {
+      font-size: 1.125rem;
+    }
+
+    .contact-description {
+      font-size: 0.875rem;
+    }
+
+    .contact-detail {
+      font-size: 0.875rem;
+    }
+  }
+
+  .contact-header {
+    .contact-header-subtitle {
+      font-size: 1.8rem;
+    }
+
+    .contact-header-title {
+      font-size: 3rem;
+    }
+  }
+}
+
+// Extra Large Desktop styles (1201px and above)
+@include contact-us-responsive(extra-large) {
+  .contact-methods-container {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+  }
+
+  .contact-method-card {
+    width: 40% !important;
+    min-width: 220px;
+
+    .contact-icon {
+      width: 55px;
+      height: 55px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .contact-title {
+      font-size: 1.25rem;
+    }
+
+    .contact-description {
+      font-size: 1rem;
+    }
+
+    .contact-detail {
+      font-size: 1rem;
+    }
+  }
+
+  .contact-header {
+    .contact-header-subtitle {
+      font-size: 2rem;
+    }
+
+    .contact-header-title {
+      font-size: 3.5rem;
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Stagger animation for contact method cards
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR CONTACT US
+// ============================================================================
+
+// ContactUs spacing utilities
+.contact-us-gap-sm {
+  gap: 1rem;
+}
+
+.contact-us-gap-md {
+  gap: 2rem;
+}
+
+.contact-us-gap-lg {
+  gap: 3rem;
+}
+
+// Icon size utilities
+.contact-icon-sm {
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.contact-icon-md {
+  .contact-icon {
+    width: 60px;
+    height: 60px;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+
+.contact-icon-lg {
+  .contact-icon {
+    width: 80px;
+    height: 80px;
+
+    svg {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+
+// Color utilities
+.contact-primary {
+  .contact-title,
+  .contact-detail {
+    color: $primary-color;
+  }
+}
+
+.contact-secondary {
+  .contact-title,
+  .contact-detail {
+    color: $secondary-color;
+  }
+}
+
+// Hover effect utilities
+.contact-hover-none {
+  .contact-method-card {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.contact-hover-scale {
+  .contact-method-card {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.contact-us-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect with enhanced shadows
+.contact-us-card-enhanced {
+  .contact-method-card {
+    padding: 1.5rem;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba($primary-color, 0.1);
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.contact-us-border {
+  .contact-method-card {
+    border: 2px solid transparent;
+    border-radius: $border-radius;
+    padding: 1rem;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated cards
+.contact-us-animated {
+  .contact-method-card {
+    animation: float 6s ease-in-out infinite;
+
+    @for $i from 1 through 3 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 2}s;
+      }
+    }
+  }
+}
+
+// Float animation
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

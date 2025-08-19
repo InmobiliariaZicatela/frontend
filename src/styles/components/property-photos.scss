@@ -1,0 +1,444 @@
+@use "sass:color";
+
+// ============================================================================
+// PROPERTY PHOTOS MODAL COMPONENT
+// ============================================================================
+
+// Variables (matching globals.scss values)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: #17a2b8;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+
+$border-radius: 16px;
+$transition: all 0.3s ease;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+.property-photos-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(128, 128, 128, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+
+  .modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 120px;
+    box-sizing: border-box;
+
+    @media (max-width: $breakpoint-md) {
+      padding: 40px 15px 100px;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      padding: 30px 10px 80px;
+    }
+  }
+
+  // Close Button
+  .modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: $primary-color;
+    border: 2px solid $primary-color;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: 10%);
+      border-color: color.adjust($primary-color, $lightness: 10%);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: $breakpoint-md) {
+      top: 15px;
+      right: 15px;
+      width: 45px;
+      height: 45px;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  // Image Counter
+  .image-counter {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: $primary-color;
+    backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: $border-radius;
+    z-index: 10;
+
+    p {
+      color: white;
+      font-weight: 500;
+    }
+
+    @media (max-width: $breakpoint-md) {
+      top: 15px;
+      left: 15px;
+      padding: 6px 12px;
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      top: 10px;
+      left: 10px;
+      padding: 4px 8px;
+
+      p {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  // Main Image Container
+  .main-image-container {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 90vw;
+    max-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: $breakpoint-md) {
+      max-width: 95vw;
+      max-height: calc(100vh - 160px);
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      max-width: 98vw;
+      max-height: calc(100vh - 120px);
+    }
+
+    .main-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 8px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    // Navigation Arrows
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      background-color: $primary-color;
+      border: 2px solid $primary-color;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: $transition;
+      backdrop-filter: blur(8px);
+      z-index: 5;
+
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: 10%);
+        border-color: color.adjust($primary-color, $lightness: 10%);
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      &:active {
+        transform: translateY(-50%) scale(0.95);
+      }
+
+      &.nav-arrow-left {
+        left: -40px;
+
+        @media (max-width: $breakpoint-lg) {
+          left: -30px;
+        }
+
+        @media (max-width: $breakpoint-md) {
+          left: calc(50% - 60px);
+          top: auto;
+          bottom: 100px;
+          transform: none;
+          width: 50px;
+          height: 50px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+          left: calc(50% - 55px);
+          top: auto;
+          bottom: 90px;
+          transform: none;
+          width: 45px;
+          height: 45px;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+
+      &.nav-arrow-right {
+        right: -40px;
+
+        @media (max-width: $breakpoint-lg) {
+          right: -30px;
+        }
+
+        @media (max-width: $breakpoint-md) {
+          right: calc(50% - 60px);
+          top: auto;
+          bottom: 100px;
+          transform: none;
+          width: 50px;
+          height: 50px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+          right: calc(50% - 55px);
+          top: auto;
+          bottom: 90px;
+          transform: none;
+          width: 45px;
+          height: 45px;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+    }
+  }
+
+  // Thumbnails Container
+  .thumbnails-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    z-index: 10;
+
+    @media (max-width: $breakpoint-md) {
+      bottom: 15px;
+      max-width: 90vw;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      bottom: 10px;
+      max-width: 95vw;
+    }
+
+    .thumbnails-scroll {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      padding: 16px 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+      );
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      @media (max-width: $breakpoint-md) {
+        gap: 10px;
+        padding: 14px 18px;
+        border-radius: 18px;
+      }
+
+      @media (max-width: $breakpoint-sm) {
+        gap: 8px;
+        padding: 12px 16px;
+        border-radius: 16px;
+      }
+
+      .thumbnail {
+        flex-shrink: 0;
+        width: 80px;
+        height: 60px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: $transition;
+        background: none;
+        padding: 0;
+        position: relative;
+
+        @media (max-width: $breakpoint-md) {
+          width: 70px;
+          height: 52px;
+        }
+
+        @media (max-width: $breakpoint-sm) {
+          width: 60px;
+          height: 45px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          transition: $transition;
+        }
+
+        &:hover {
+          border-color: $primary-color;
+          transform: scale(1.05);
+          box-shadow: 0 4px 16px rgba(0, 101, 242, 0.3);
+
+          img {
+            transform: scale(1.1);
+          }
+        }
+
+        &.active {
+          border-color: $primary-color;
+          box-shadow: 0 0 20px rgba(0, 101, 242, 0.6);
+          transform: scale(1.02);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Loading state for images
+.property-photos-modal .main-image {
+  &.loading {
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+
+  &.loaded {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+// Responsive behavior adjustments
+@media (max-width: $breakpoint-sm) {
+  .property-photos-modal {
+    .thumbnails-container {
+      .thumbnails-scroll {
+        justify-content: flex-start;
+
+        .thumbnail {
+          &:first-child {
+            margin-left: auto;
+          }
+
+          &:last-child {
+            margin-right: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Touch gestures support (for future enhancement)
+.property-photos-modal .main-image-container {
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

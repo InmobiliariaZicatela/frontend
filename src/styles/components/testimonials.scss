@@ -1,0 +1,588 @@
+@use "sass:color";
+
+// ============================================================================
+// TESTIMONIALS COMPONENT STYLES
+// ============================================================================
+
+// Testimonials-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Testimonials-specific variables
+$testimonials-gap: 30px;
+$testimonial-card-width: 28%;
+$testimonial-card-min-width: 200px;
+$testimonial-card-padding: 1.5rem;
+$avatar-size: 45px;
+$quote-margin-bottom: 1.25rem;
+$avatar-margin-bottom: 0.5rem;
+
+// Mixin for testimonials responsive breakpoints
+@mixin testimonials-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == extra-large {
+    @media (min-width: #{$breakpoint-xl + 1px}) {
+      @content;
+    }
+  }
+}
+
+// Mixin for testimonials animations
+@mixin testimonials-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// Testimonials container styles
+.testimonials-container {
+  gap: $testimonials-gap;
+
+  // Animation on load
+  @include testimonials-animation(fadeInUp, 0.6s, ease-out);
+
+  // Hover effects for the entire container
+  transition: $transition;
+
+  &:hover {
+    .testimonial-card {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Testimonial card styles
+.testimonial-card {
+  width: $testimonial-card-width;
+  min-width: $testimonial-card-min-width;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: $border-radius;
+  padding: $testimonial-card-padding;
+  transition: $transition;
+  cursor: pointer;
+
+  // Hover effects
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  // Animation delay for staggered effect
+  @for $i from 1 through 3 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// Testimonial quote styles
+.testimonial-quote {
+  line-height: 1.6;
+  position: relative;
+  margin-bottom: $quote-margin-bottom;
+  color: $primary-color;
+  font-weight: 300;
+  font-size: 1rem;
+
+  // Quote mark effect
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -15px;
+    font-size: 3rem;
+    color: rgba($primary-color, 0.2);
+    font-family: serif;
+  }
+}
+
+// Testimonial avatar styles
+.testimonial-avatar {
+  width: $avatar-size;
+  height: $avatar-size;
+  border-radius: 50%;
+  background-color: rgba($primary-color, 0.15);
+  margin-bottom: $avatar-margin-bottom;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    background-color: rgba($primary-color, 0.25);
+    transform: scale(1.05);
+  }
+}
+
+// Testimonial client name styles
+.testimonial-client-name {
+  color: $primary-color;
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  transition: $transition;
+
+  &:hover {
+    color: color.scale($primary-color, $lightness: -10%);
+  }
+}
+
+// Testimonial client description styles
+.testimonial-client-description {
+  color: $primary-color;
+  font-weight: 400;
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: $transition;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include testimonials-responsive(mobile) {
+  .testimonials-container {
+    flex-direction: column !important;
+    gap: 2rem;
+
+    // Animation for mobile
+    @include testimonials-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .testimonial-card {
+    width: 100% !important;
+    min-width: auto;
+    padding: 1.5rem;
+
+    .testimonial-quote {
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 1rem;
+    }
+
+    .testimonial-client-name {
+      width: 100%;
+      font-size: 1.125rem;
+      text-align: center;
+    }
+
+    .testimonial-client-description {
+      width: 100%;
+      font-size: 0.875rem;
+      text-align: center;
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include testimonials-responsive(tablet) {
+  .testimonials-container {
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+  }
+
+  .testimonial-card {
+    width: 100% !important;
+    min-width: auto;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .testimonial-quote {
+      font-size: 1.125rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+    }
+
+    .testimonial-client-name {
+      width: 100%;
+      font-size: 1.25rem;
+      text-align: center;
+    }
+
+    .testimonial-client-description {
+      width: 100%;
+      font-size: 1rem;
+      text-align: center;
+    }
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include testimonials-responsive(desktop) {
+  .testimonials-container {
+    flex-direction: row !important;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+
+  .testimonial-card {
+    width: 30% !important;
+    min-width: 200px;
+    max-width: none;
+
+    .testimonial-quote {
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 0.75rem;
+    }
+
+    .testimonial-client-name {
+      font-size: 1rem;
+    }
+
+    .testimonial-client-description {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Large Desktop styles (993px - 1200px)
+@include testimonials-responsive(large-desktop) {
+  .testimonials-container {
+    flex-direction: row !important;
+    justify-content: space-around;
+    padding: 60px 32px !important;
+    flex-wrap: nowrap;
+    gap: 2.5rem;
+  }
+
+  .testimonial-card {
+    width: 28% !important;
+    min-width: 250px;
+    max-width: none;
+
+    .testimonial-quote {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-avatar {
+      width: 55px;
+      height: 55px;
+      margin-bottom: 0.75rem;
+    }
+
+    .testimonial-client-name {
+      font-size: 1.125rem;
+    }
+
+    .testimonial-client-description {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Extra Large Desktop styles (1201px and above)
+@include testimonials-responsive(extra-large) {
+  .testimonials-container {
+    flex-direction: row !important;
+    padding: 60px 32px !important;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    gap: 3rem;
+  }
+
+  .testimonial-card {
+    width: 28% !important;
+    min-width: 300px;
+    max-width: none;
+
+    .testimonial-quote {
+      font-size: 1.125rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-client-name {
+      font-size: 1.25rem;
+    }
+
+    .testimonial-client-description {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Stagger animation for testimonial cards
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR TESTIMONIALS
+// ============================================================================
+
+// Testimonials spacing utilities
+.testimonials-gap-sm {
+  gap: 1rem;
+}
+
+.testimonials-gap-md {
+  gap: 2rem;
+}
+
+.testimonials-gap-lg {
+  gap: 3rem;
+}
+
+// Testimonials layout utilities
+.testimonials-center {
+  justify-content: center;
+}
+
+.testimonials-around {
+  justify-content: space-around;
+}
+
+.testimonials-between {
+  justify-content: space-between;
+}
+
+// Testimonial card utilities
+.testimonial-card-center {
+  text-align: center;
+
+  .testimonial-quote {
+    text-align: center;
+  }
+
+  .testimonial-avatar {
+    margin: 0 auto 1rem;
+  }
+
+  .testimonial-client-name {
+    text-align: center;
+  }
+
+  .testimonial-client-description {
+    text-align: center;
+  }
+}
+
+.testimonial-card-left {
+  text-align: left;
+
+  .testimonial-quote {
+    text-align: left;
+  }
+
+  .testimonial-client-name {
+    text-align: left;
+  }
+
+  .testimonial-client-description {
+    text-align: left;
+  }
+}
+
+// Avatar size utilities
+.testimonial-avatar-sm {
+  .testimonial-avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.testimonial-avatar-md {
+  .testimonial-avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.testimonial-avatar-lg {
+  .testimonial-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+// Color utilities
+.testimonial-primary {
+  .testimonial-quote,
+  .testimonial-client-name,
+  .testimonial-client-description {
+    color: $primary-color;
+  }
+}
+
+.testimonial-secondary {
+  .testimonial-quote,
+  .testimonial-client-name,
+  .testimonial-client-description {
+    color: $secondary-color;
+  }
+}
+
+// Hover effect utilities
+.testimonial-hover-none {
+  .testimonial-card {
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+.testimonial-hover-scale {
+  .testimonial-card {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.testimonials-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect with enhanced shadows
+.testimonials-card-enhanced {
+  .testimonial-card {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba($primary-color, 0.1);
+
+    &:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.testimonials-border {
+  .testimonial-card {
+    border: 2px solid transparent;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated cards
+.testimonials-animated {
+  .testimonial-card {
+    animation: float 6s ease-in-out infinite;
+
+    @for $i from 1 through 3 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 2}s;
+      }
+    }
+  }
+}
+
+// Float animation
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

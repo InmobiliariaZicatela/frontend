@@ -1,0 +1,539 @@
+@use "sass:color";
+
+// ============================================================================
+// PROPERTY EXTRA DETAILS COMPONENT STYLES
+// ============================================================================
+
+// PropertyExtraDetails-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// PropertyExtraDetails-specific variables
+$property-extra-details-gap: 20px;
+$property-extra-details-min-height: 400px;
+$illustration-width: 48%;
+$content-width: 48%;
+$illustration-height: 400px;
+$image-border-radius: 16px;
+$title-margin-bottom: 1.25rem;
+$description-margin-bottom: 0.75rem;
+
+// Mixin for property-extra-details responsive breakpoints
+@mixin property-extra-details-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+// Mixin for property-extra-details animations
+@mixin property-extra-details-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// PropertyExtraDetails container styles
+.property-extra-details-container {
+  height: min-content;
+  min-height: $property-extra-details-min-height;
+  gap: $property-extra-details-gap;
+
+  // Animation on load
+  @include property-extra-details-animation(fadeInUp, 0.6s, ease-out);
+}
+
+// PropertyExtraDetails illustration styles
+.property-extra-details-illustration {
+  width: $illustration-width;
+  height: $illustration-height;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition;
+
+  // Image container
+  .property-extra-details-image {
+    width: 100%;
+    height: 100%;
+    border-radius: $image-border-radius;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: $transition;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    // Image styling
+    .property-extra-details-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: $transition;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+// PropertyExtraDetails content styles
+.property-extra-details-content {
+  width: $content-width;
+  transition: $transition;
+
+  // Title styles
+  .property-extra-details-title {
+    margin-bottom: $title-margin-bottom;
+    color: $primary-color;
+    transition: $transition;
+
+    &:hover {
+      color: color.scale($primary-color, $lightness: -10%);
+    }
+  }
+
+  // Description styles
+  .property-extra-details-description {
+    margin-bottom: $description-margin-bottom;
+    color: $secondary-color;
+    line-height: 1.6;
+    opacity: 0.9;
+    transition: $transition;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  // List styles
+  .property-extra-details-list {
+    transition: $transition;
+
+    li {
+      transition: $transition;
+      margin-bottom: 0.5rem;
+
+      &:hover {
+        color: color.scale($primary-color, $lightness: -10%);
+        transform: translateX(5px);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include property-extra-details-responsive(mobile) {
+  .property-extra-details-container {
+    flex-direction: column-reverse !important;
+    min-height: auto;
+    gap: 2rem;
+
+    // Animation for mobile
+    @include property-extra-details-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .property-extra-details-illustration {
+    width: 100% !important;
+    height: 250px;
+    order: 2; // Move illustration below content on mobile
+
+    .property-extra-details-image {
+      height: 250px;
+    }
+  }
+
+  .property-extra-details-content {
+    width: 100% !important;
+    order: 1; // Move content above illustration on mobile
+    text-align: center;
+
+    .property-extra-details-title {
+      font-size: 1.75rem !important;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .property-extra-details-description {
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .property-extra-details-list {
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto;
+
+      li {
+        font-size: 0.875rem;
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include property-extra-details-responsive(tablet) {
+  .property-extra-details-container {
+    flex-direction: column-reverse !important;
+    gap: 2.5rem;
+  }
+
+  .property-extra-details-illustration {
+    width: 100% !important;
+    height: 300px;
+    order: 2;
+
+    .property-extra-details-image {
+      height: 300px;
+    }
+  }
+
+  .property-extra-details-content {
+    width: 100% !important;
+    order: 1;
+    text-align: center;
+
+    .property-extra-details-title {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .property-extra-details-description {
+      font-size: 1.125rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 1rem;
+    }
+
+    .property-extra-details-list {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
+
+      li {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Desktop styles (769px - 992px) - This includes 947px
+@include property-extra-details-responsive(desktop) {
+  .property-extra-details-container {
+    flex-direction: column-reverse !important;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .property-extra-details-illustration {
+    width: 100% !important;
+    height: 350px;
+    order: 2;
+    max-width: 600px;
+    margin: 0 auto;
+
+    .property-extra-details-image {
+      height: 350px;
+    }
+  }
+
+  .property-extra-details-content {
+    width: 100% !important;
+    order: 1;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+
+    .property-extra-details-title {
+      font-size: 2.25rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .property-extra-details-description {
+      font-size: 1.25rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .property-extra-details-list {
+      text-align: left;
+      max-width: 550px;
+      margin: 0 auto;
+
+      li {
+        font-size: 1.125rem;
+        text-align: left;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Image hover animation
+@keyframes imageHover {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR PROPERTY EXTRA DETAILS
+// ============================================================================
+
+// PropertyExtraDetails spacing utilities
+.property-extra-details-gap-sm {
+  gap: 1rem;
+}
+
+.property-extra-details-gap-md {
+  gap: 2rem;
+}
+
+.property-extra-details-gap-lg {
+  gap: 3rem;
+}
+
+// PropertyExtraDetails layout utilities
+.property-extra-details-center {
+  justify-content: center;
+}
+
+.property-extra-details-around {
+  justify-content: space-around;
+}
+
+.property-extra-details-between {
+  justify-content: space-between;
+}
+
+// Illustration utilities
+.property-extra-details-illustration-center {
+  .property-extra-details-illustration {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.property-extra-details-illustration-left {
+  .property-extra-details-illustration {
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+.property-extra-details-illustration-right {
+  .property-extra-details-illustration {
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+// Content utilities
+.property-extra-details-content-center {
+  text-align: center;
+
+  .property-extra-details-title {
+    text-align: center;
+  }
+
+  .property-extra-details-description {
+    text-align: center;
+  }
+
+  .property-extra-details-list {
+    text-align: center;
+  }
+}
+
+.property-extra-details-content-left {
+  text-align: left;
+
+  .property-extra-details-title {
+    text-align: left;
+  }
+
+  .property-extra-details-description {
+    text-align: left;
+  }
+
+  .property-extra-details-list {
+    text-align: left;
+  }
+}
+
+// Image size utilities
+.property-extra-details-illustration-sm {
+  .property-extra-details-illustration {
+    height: 250px;
+
+    .property-extra-details-image {
+      height: 250px;
+    }
+  }
+}
+
+.property-extra-details-illustration-md {
+  .property-extra-details-illustration {
+    height: 350px;
+
+    .property-extra-details-image {
+      height: 350px;
+    }
+  }
+}
+
+.property-extra-details-illustration-lg {
+  .property-extra-details-illustration {
+    height: 450px;
+
+    .property-extra-details-image {
+      height: 450px;
+    }
+  }
+}
+
+// Color utilities
+.property-extra-details-primary {
+  .property-extra-details-title {
+    color: $primary-color;
+  }
+}
+
+.property-extra-details-secondary {
+  .property-extra-details-title {
+    color: $secondary-color;
+  }
+}
+
+// Hover effect utilities
+.property-extra-details-hover-none {
+  .property-extra-details-illustration,
+  .property-extra-details-content {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.property-extra-details-hover-scale {
+  .property-extra-details-illustration {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.property-extra-details-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect
+.property-extra-details-card {
+  .property-extra-details-illustration,
+  .property-extra-details-content {
+    background: white;
+    border-radius: $border-radius;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.property-extra-details-border {
+  .property-extra-details-illustration,
+  .property-extra-details-content {
+    border: 2px solid transparent;
+    border-radius: $border-radius;
+    padding: 1rem;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated image
+.property-extra-details-animated {
+  .property-extra-details-image {
+    animation: imageHover 4s ease-in-out infinite;
+  }
+}

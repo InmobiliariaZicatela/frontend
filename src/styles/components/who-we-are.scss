@@ -1,0 +1,549 @@
+@use "sass:color";
+
+// ============================================================================
+// WHO WE ARE COMPONENT STYLES
+// ============================================================================
+
+// WhoWeAre-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// WhoWeAre-specific variables
+$who-we-are-gap: 20px;
+$who-we-are-min-height: 400px;
+$illustration-width: 48%;
+$content-width: 48%;
+$illustration-height: 400px;
+$svg-size: 400px;
+$title-margin-bottom: 1.25rem;
+$description-margin-bottom: 0.75rem;
+
+// Mixin for who-we-are responsive breakpoints
+@mixin who-we-are-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+// Mixin for who-we-are animations
+@mixin who-we-are-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// WhoWeAre container styles
+.who-we-are-container {
+  height: min-content;
+  min-height: $who-we-are-min-height;
+  gap: $who-we-are-gap;
+
+  // Animation on load
+  @include who-we-are-animation(fadeInUp, 0.6s, ease-out);
+}
+
+// WhoWeAre illustration styles
+.who-we-are-illustration {
+  width: $illustration-width;
+  height: $illustration-height;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition;
+
+  // Who We Are Image
+  .who-we-are-image {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: $transition;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+    // Hover effects for image
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+// WhoWeAre content styles
+.who-we-are-content {
+  width: $content-width;
+  transition: $transition;
+
+  // Title styles
+  .who-we-are-title {
+    margin-bottom: $title-margin-bottom;
+    color: $primary-color;
+    transition: $transition;
+
+    &:hover {
+      color: color.scale($primary-color, $lightness: -10%);
+    }
+  }
+
+  // Description styles
+  .who-we-are-description {
+    margin-bottom: $description-margin-bottom;
+    line-height: 1.6;
+    opacity: 0.9;
+    transition: $transition;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  // List styles
+  .who-we-are-list {
+    transition: $transition;
+
+    li {
+      transition: $transition;
+      margin-bottom: 0.5rem;
+
+      &:hover {
+        color: color.scale($primary-color, $lightness: -10%);
+        transform: translateX(5px);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include who-we-are-responsive(mobile) {
+  .who-we-are-container {
+    flex-direction: column-reverse !important;
+    min-height: auto;
+    gap: 2rem;
+
+    // Animation for mobile
+    @include who-we-are-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .who-we-are-illustration {
+    width: 100% !important;
+    height: 300px;
+    order: 2; // Move illustration below content on mobile
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .who-we-are-content {
+    width: 100% !important;
+    order: 1; // Move content above illustration on mobile
+    text-align: center;
+
+    .who-we-are-title {
+      font-size: 1.75rem !important;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .who-we-are-description {
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .who-we-are-list {
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto;
+
+      li {
+        font-size: 0.875rem;
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include who-we-are-responsive(tablet) {
+  .who-we-are-container {
+    flex-direction: column-reverse !important;
+    gap: 2.5rem;
+  }
+
+  .who-we-are-illustration {
+    width: 100% !important;
+    height: 350px;
+    order: 2;
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .who-we-are-content {
+    width: 100% !important;
+    order: 1;
+    text-align: center;
+
+    .who-we-are-title {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .who-we-are-description {
+      font-size: 1.125rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 1rem;
+    }
+
+    .who-we-are-list {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
+
+      li {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Desktop styles (769px - 992px) - This includes 947px
+@include who-we-are-responsive(desktop) {
+  .who-we-are-container {
+    flex-direction: column-reverse !important;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .who-we-are-illustration {
+    width: 100% !important;
+    height: 400px;
+    order: 2;
+    max-width: 500px;
+    margin: 0 auto;
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .who-we-are-content {
+    width: 100% !important;
+    order: 1;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+
+    .who-we-are-title {
+      font-size: 2.25rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .who-we-are-description {
+      font-size: 1.25rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .who-we-are-list {
+      text-align: left;
+      max-width: 550px;
+      margin: 0 auto;
+
+      li {
+        font-size: 1.125rem;
+        text-align: left;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Pulse animation for background circle
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Image float animation
+@keyframes imageFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR WHO WE ARE
+// ============================================================================
+
+// WhoWeAre spacing utilities
+.who-we-are-gap-sm {
+  gap: 1rem;
+}
+
+.who-we-are-gap-md {
+  gap: 2rem;
+}
+
+.who-we-are-gap-lg {
+  gap: 3rem;
+}
+
+// WhoWeAre layout utilities
+.who-we-are-center {
+  justify-content: center;
+}
+
+.who-we-are-around {
+  justify-content: space-around;
+}
+
+.who-we-are-between {
+  justify-content: space-between;
+}
+
+// Illustration utilities
+.who-we-are-illustration-center {
+  .who-we-are-illustration {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.who-we-are-illustration-left {
+  .who-we-are-illustration {
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+.who-we-are-illustration-right {
+  .who-we-are-illustration {
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+// Content utilities
+.who-we-are-content-center {
+  text-align: center;
+
+  .who-we-are-title {
+    text-align: center;
+  }
+
+  .who-we-are-description {
+    text-align: center;
+  }
+
+  .who-we-are-list {
+    text-align: center;
+  }
+}
+
+.who-we-are-content-left {
+  text-align: left;
+
+  .who-we-are-title {
+    text-align: left;
+  }
+
+  .who-we-are-description {
+    text-align: left;
+  }
+
+  .who-we-are-list {
+    text-align: left;
+  }
+}
+
+// Illustration size utilities
+.who-we-are-illustration-sm {
+  .who-we-are-illustration {
+    height: 300px;
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.who-we-are-illustration-md {
+  .who-we-are-illustration {
+    height: 400px;
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.who-we-are-illustration-lg {
+  .who-we-are-illustration {
+    height: 500px;
+
+    .who-we-are-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// Color utilities
+.who-we-are-primary {
+  .who-we-are-title {
+    color: $primary-color;
+  }
+}
+
+.who-we-are-secondary {
+  .who-we-are-title {
+    color: $secondary-color;
+  }
+}
+
+// Hover effect utilities
+.who-we-are-hover-none {
+  .who-we-are-illustration,
+  .who-we-are-content {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.who-we-are-hover-scale {
+  .who-we-are-illustration {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.who-we-are-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 2rem;
+}
+
+// Card effect
+.who-we-are-card {
+  .who-we-are-illustration,
+  .who-we-are-content {
+    background: white;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.who-we-are-border {
+  .who-we-are-illustration,
+  .who-we-are-content {
+    border: 2px solid transparent;
+    padding: 1rem;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}
+
+// Animated background circle
+.who-we-are-animated {
+  .who-we-are-image {
+    animation: imageFloat 4s ease-in-out infinite;
+  }
+}

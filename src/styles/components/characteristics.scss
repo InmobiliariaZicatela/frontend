@@ -1,0 +1,399 @@
+@use "sass:color";
+
+// ============================================================================
+// CHARACTERISTICS COMPONENT STYLES
+// ============================================================================
+
+// Characteristics-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$border-radius: 16px;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// Characteristics-specific variables
+$characteristics-gap: 30px;
+$characteristic-width: 28%;
+$characteristic-inner-gap: 10px;
+$icon-text-gap: 8px;
+$icon-size: 30px;
+$characteristic-title-color: $primary-color;
+
+// Mixin for characteristics responsive breakpoints
+@mixin characteristics-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+// Mixin for characteristics animations
+@mixin characteristics-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// Characteristics container styles
+.characteristics-container {
+  width: 100%;
+  gap: $characteristics-gap;
+  padding: 0 30px;
+
+  // Animation on load
+  @include characteristics-animation(fadeInUp, 0.6s, ease-out);
+
+  // Hover effects for the entire container
+  transition: $transition;
+
+  &:hover {
+    .characteristic-item {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Characteristic item styles
+.characteristic-item {
+  width: $characteristic-width;
+  gap: $characteristic-inner-gap;
+
+  // Smooth transitions
+  transition: $transition;
+
+  // Hover effects
+  &:hover {
+    transform: translateY(-3px);
+
+    .characteristic-icon {
+      transform: scale(1.1);
+    }
+  }
+
+  // Animation delay for staggered effect
+  @for $i from 1 through 3 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// Characteristic header (icon + title) styles
+.characteristic-header {
+  gap: $icon-text-gap;
+
+  // Icon styles
+  .characteristic-icon {
+    transition: $transition;
+    flex-shrink: 0;
+  }
+
+  // Title styles
+  .characteristic-title {
+    transition: $transition;
+    margin: 0;
+  }
+}
+
+// Characteristic description styles
+.characteristic-description {
+  text-align: justify;
+  margin: 0;
+  line-height: 1.6;
+  color: $secondary-color;
+  opacity: 0.9;
+  transition: $transition;
+
+  // Hover effect
+  .characteristic-item:hover & {
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include characteristics-responsive(mobile) {
+  .characteristics-container {
+    flex-direction: column !important;
+    gap: 2rem;
+
+    // Animation for mobile
+    @include characteristics-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .characteristic-item {
+    width: 100% !important;
+    gap: 1rem;
+    text-align: center;
+
+    // Center align header on mobile
+    .characteristic-header {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .characteristic-title {
+      font-size: 1.25rem !important;
+      text-align: center;
+    }
+
+    .characteristic-description {
+      text-align: center;
+      font-size: 0.875rem;
+      padding: 0 1rem;
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include characteristics-responsive(tablet) {
+  .characteristics-container {
+    flex-direction: column !important;
+    gap: 2.5rem;
+  }
+
+  .characteristic-item {
+    width: 100% !important;
+    gap: 1rem;
+
+    .characteristic-header {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .characteristic-title {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .characteristic-description {
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include characteristics-responsive(desktop) {
+  .characteristics-container {
+    flex-direction: row !important;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .characteristic-item {
+    width: 30% !important;
+    min-width: 250px;
+    gap: 1rem;
+
+    .characteristic-header {
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .characteristic-title {
+      font-size: 1.25rem;
+    }
+
+    .characteristic-description {
+      text-align: left;
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Stagger animation for characteristic items
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR CHARACTERISTICS
+// ============================================================================
+
+// Characteristics spacing utilities
+.characteristics-gap-sm {
+  gap: 1rem;
+}
+
+.characteristics-gap-md {
+  gap: 2rem;
+}
+
+.characteristics-gap-lg {
+  gap: 3rem;
+}
+
+// Characteristics layout utilities
+.characteristics-center {
+  justify-content: center;
+}
+
+.characteristics-around {
+  justify-content: space-around;
+}
+
+.characteristics-between {
+  justify-content: space-between;
+}
+
+// Characteristic item utilities
+.characteristic-item-center {
+  text-align: center;
+
+  .characteristic-header {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .characteristic-description {
+    text-align: center;
+  }
+}
+
+.characteristic-item-left {
+  text-align: left;
+
+  .characteristic-header {
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .characteristic-description {
+    text-align: left;
+  }
+}
+
+// Icon size utilities
+.characteristic-icon-sm {
+  .characteristic-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.characteristic-icon-md {
+  .characteristic-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.characteristic-icon-lg {
+  .characteristic-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// Hover effect utilities
+.characteristic-hover-none {
+  .characteristic-item {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.characteristic-hover-scale {
+  .characteristic-item {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================================
+// SPECIAL EFFECTS
+// ============================================================================
+
+// Gradient background effect
+.characteristics-gradient {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Card effect
+.characteristics-card {
+  .characteristic-item {
+    background: white;
+    border-radius: $border-radius;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Border effect
+.characteristics-border {
+  .characteristic-item {
+    border: 2px solid transparent;
+    border-radius: $border-radius;
+    padding: 1rem;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+  }
+}

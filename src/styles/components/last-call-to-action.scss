@@ -1,0 +1,163 @@
+// ============================================================================
+// LAST CALL TO ACTION COMPONENT STYLES
+// ============================================================================
+
+// LastCallToAction-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// LastCallToAction-specific variables
+$last-cta-gap: 20px;
+$text-max-width: 800px;
+
+// Mixin for last-call-to-action responsive breakpoints
+@mixin last-cta-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == extra-large {
+    @media (min-width: #{$breakpoint-xl + 1px}) {
+      @content;
+    }
+  }
+}
+
+// LastCallToAction container styles
+.last-call-to-action-container {
+  gap: $last-cta-gap;
+  text-align: center;
+  padding: 8rem 40px;
+
+  @include last-cta-responsive(mobile) {
+    padding: 6rem 20px;
+  }
+}
+
+// Text content wrapper
+.last-call-to-action-text-wrapper {
+  max-width: $text-max-width;
+  flex-direction: column;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+
+  @include last-cta-responsive(tablet) {
+    max-width: 100%;
+    padding: 0 30px;
+    gap: 20px;
+  }
+
+  @include last-cta-responsive(tablet) {
+    max-width: 100%;
+    padding: 0 40px;
+    gap: 15px;
+  }
+}
+
+// Subtitle text styles
+.last-call-to-action-subtitle {
+  color: $primary-color;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 400;
+  margin: 0;
+  max-width: 100%;
+
+  @include last-cta-responsive(desktop) {
+    font-size: 1.2rem;
+  }
+
+  @include last-cta-responsive(large-desktop) {
+    font-size: 1.3rem;
+  }
+
+  @include last-cta-responsive(mobile) {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+// Main title styles
+.last-call-to-action-title {
+  color: $primary-color;
+  font-size: 3rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0;
+  max-width: 100%;
+
+  @include last-cta-responsive(large-desktop) {
+    font-size: 3rem;
+  }
+
+  @include last-cta-responsive(desktop) {
+    font-size: 2.5rem;
+  }
+
+  @include last-cta-responsive(tablet) {
+    font-size: 2rem;
+  }
+
+  @include last-cta-responsive(mobile) {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+}
+
+// Button styles
+.last-call-to-action-button {
+  margin-top: 10px;
+}
+
+// Responsive adjustments
+@include last-cta-responsive(mobile) {
+  .last-call-to-action-container {
+    gap: 20px;
+  }
+
+  .last-call-to-action-text-wrapper {
+    gap: 12px;
+  }
+}
+
+@include last-cta-responsive(tablet) {
+  .last-call-to-action-container {
+    gap: 25px;
+  }
+}
+
+@include last-cta-responsive(desktop) {
+  .last-call-to-action-container {
+    gap: 30px;
+  }
+}
+
+@include last-cta-responsive(large-desktop) {
+  .last-call-to-action-container {
+    gap: 35px;
+  }
+}
+
+@include last-cta-responsive(extra-large) {
+  .last-call-to-action-container {
+    gap: 40px;
+  }
+}

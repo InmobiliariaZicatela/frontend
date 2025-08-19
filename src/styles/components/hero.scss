@@ -1,0 +1,467 @@
+@use "sass:color";
+
+// ============================================================================
+// HERO COMPONENT STYLES
+// ============================================================================
+
+// Hero-specific variables (using global color scheme)
+$primary-color: #0065f2;
+$secondary-color: #6c757d;
+$transition: all 0.3s ease;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// Hero-specific variables
+$hero-min-height: 640px;
+$hero-gap: 40px; // Increased gap for better separation
+$hero-content-width: 45%; // Slightly reduced to give more space to image
+$hero-image-width: 52%; // Increased image width for better proportion
+$hero-cta-gap: 1rem;
+$hero-title-color: $primary-color;
+$hero-text-margin-bottom: 40px;
+$hero-title-margin-bottom: 15px;
+
+// Mixin for hero responsive breakpoints
+@mixin hero-responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+// Mixin for hero animations
+@mixin hero-animation($name, $duration: 0.3s, $timing: ease) {
+  animation: $name $duration $timing;
+}
+
+// Hero container styles
+.hero-container {
+  gap: $hero-gap;
+  min-height: $hero-min-height;
+  height: min-content;
+  align-items: stretch; // Changed from center to stretch for proper column alignment
+  padding: 40px 30px; // Added horizontal padding (20px left/right)
+  flex-wrap: nowrap; // Prevent wrapping
+
+  // Ensure proper flexbox behavior
+  display: flex;
+  flex-direction: row;
+
+  // Force the layout to maintain columns
+  & > * {
+    flex-basis: auto;
+    flex-grow: 0;
+  }
+}
+
+// Hero content styles
+.hero-content {
+  width: $hero-content-width;
+  flex-shrink: 0; // Prevent shrinking
+  min-width: 0; // Allow proper flex behavior
+  flex-basis: $hero-content-width; // Set explicit flex basis
+  flex-grow: 0; // Don't grow beyond allocated space
+
+  // Nested styles for better organization
+  .hero-title {
+    margin-bottom: $hero-title-margin-bottom;
+    color: $hero-title-color;
+
+    // Text shadow for better readability
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    // Gradient text effect
+    background: linear-gradient(
+      135deg,
+      $primary-color,
+      color.scale($primary-color, $lightness: -15%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-text {
+    margin-bottom: $hero-text-margin-bottom;
+
+    // Line height for better readability
+    line-height: 1.6;
+
+    // Opacity for subtle effect
+    opacity: 0.9;
+  }
+}
+
+// Hero image wrapper styles
+.hero-image-wrapper {
+  width: $hero-image-width;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0; // Prevent shrinking
+  min-width: 0; // Allow proper flex behavior
+  flex-basis: $hero-image-width; // Set explicit flex basis
+  flex-grow: 0; // Don't grow beyond allocated space
+}
+
+// Hero image container styles
+.hero-image-container {
+  // Enhanced box shadow for more depth
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+
+  // Smooth transitions
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  // Hover effects for better interactivity
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  // Responsive image handling
+  &.aspect-16-10 {
+    // Landscape images - wider container
+    width: 100%;
+    max-width: 600px; // Increased max-width for better proportion
+    height: auto;
+    flex-shrink: 0; // Prevent shrinking
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &.aspect-square {
+    // Square images
+    width: 100%;
+    max-width: 500px; // Good proportion for square images
+    height: auto;
+    flex-shrink: 0; // Prevent shrinking
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &.aspect-vertical {
+    // Portrait images - maintain aspect ratio
+    width: 100%;
+    max-width: 400px; // Appropriate for vertical images
+    height: auto;
+    flex-shrink: 0; // Prevent shrinking
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  // Image styles
+  img {
+    // Smooth loading
+    transition: opacity 0.3s ease;
+    opacity: 1; // Show image immediately
+  }
+
+  // Optional: Loading animation for slow connections
+  &.loading {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      z-index: 1;
+    }
+
+    img {
+      opacity: 0;
+    }
+
+    &.loaded {
+      &::before {
+        display: none;
+      }
+
+      img {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Hero CTA container styles
+.hero-cta-container {
+  display: flex;
+  flex-direction: row;
+  gap: $hero-cta-gap;
+  align-items: center;
+
+  // Button styles with hover effects
+  .btn {
+    // Enhanced button styles
+    position: relative;
+    overflow: hidden;
+
+    // Hover animation
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    &:hover::before {
+      left: 100%;
+    }
+  }
+
+  // Text styles
+  .hero-cta-text {
+    margin: 0;
+    color: $secondary-color;
+    font-style: italic;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile styles (max-width: 576px)
+@include hero-responsive(mobile) {
+  .hero-container {
+    flex-direction: column !important;
+    min-height: auto;
+
+    // Animation for mobile
+    @include hero-animation(slideInUp, 0.5s, ease-out);
+  }
+
+  .hero-content {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .hero-image-wrapper {
+    width: 100% !important;
+    order: -1; // Show image first on mobile
+  }
+
+  .hero-image-container {
+    // Mobile image optimization
+    &.aspect-16-10,
+    &.aspect-square,
+    &.aspect-vertical {
+      width: 100%;
+      height: 300px; // Increased height for better proportion
+      max-width: 500px; // Added max-width for mobile
+      margin: 0 auto; // Center the image
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+  }
+}
+
+// Tablet styles (max-width: 768px)
+@include hero-responsive(tablet) {
+  .hero-container {
+    flex-direction: column !important;
+    gap: 30px;
+  }
+
+  .hero-content {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .hero-image-wrapper {
+    width: 100% !important;
+    order: -1; // Show image first on tablet
+  }
+
+  .hero-image-container {
+    // Tablet image optimization
+    &.aspect-16-10,
+    &.aspect-square,
+    &.aspect-vertical {
+      width: 100%;
+      height: 400px; // Increased height for tablets
+      max-width: 600px; // Added max-width for tablets
+      margin: 0 auto; // Center the image
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+  }
+
+  .hero-cta-container {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: center;
+  }
+}
+
+// Desktop styles (769px - 992px)
+@include hero-responsive(desktop) {
+  .hero-container {
+    flex-direction: column !important;
+    gap: 2rem;
+  }
+
+  .hero-content {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .hero-image-wrapper {
+    width: 100% !important;
+
+    .hero-image-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  .hero-cta-container {
+    justify-content: center;
+
+    .btn {
+      min-width: 250px;
+    }
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade in up animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in up animation for mobile
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Loading animation keyframes
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES FOR HERO
+// ============================================================================
+
+// Hero spacing utilities
+.hero-gap-sm {
+  gap: 0.5rem;
+}
+
+.hero-gap-md {
+  gap: 1rem;
+}
+
+.hero-gap-lg {
+  gap: 2rem;
+}
+
+// Hero text utilities
+.hero-text-center {
+  text-align: center;
+}
+
+.hero-text-left {
+  text-align: left;
+}
+
+.hero-text-right {
+  text-align: right;
+}
+
+// Hero image utilities
+.hero-image-rounded {
+  .hero-image-container {
+    border-radius: 50%;
+  }
+}
+
+.hero-image-shadow {
+  .hero-image-container {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Hero button utilities
+.hero-btn-full {
+  .hero-cta-container .btn {
+    width: 100%;
+  }
+}
+
+.hero-btn-center {
+  .hero-cta-container {
+    justify-content: center;
+  }
+}
