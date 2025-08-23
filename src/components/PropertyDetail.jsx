@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Icon from "./Icon";
+import StatusBadge from "./StatusBadge";
 import PropertyPhotos from "./PropertyPhotos";
 import "../styles/components/property-detail.scss";
 
@@ -61,6 +62,35 @@ const PropertyDetail = ({ property }) => {
     setImageLoadError(false);
   };
 
+  // Function to generate Google Maps URL from coordinates
+  const generateMapsUrl = (coordinates) => {
+    if (!coordinates) return null;
+
+    // If coordinates are in lat,lng format, use them directly
+    if (coordinates.includes(",")) {
+      const coords = coordinates.split(",").map((coord) => coord.trim());
+      if (coords.length === 2) {
+        const lat = parseFloat(coords[0]);
+        const lng = parseFloat(coords[1]);
+
+        // Validate coordinates are within valid ranges
+        if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          return `https://maps.google.com/maps?q=${lat},${lng}&hl=es&z=15`;
+        }
+      }
+    }
+
+    return null;
+  };
+
+  // Handle address click to open Google Maps
+  const handleAddressClick = (coordinates) => {
+    const mapsUrl = generateMapsUrl(coordinates);
+    if (mapsUrl) {
+      window.open(mapsUrl, "_blank");
+    }
+  };
+
   if (!property) {
     return null;
   }
@@ -71,12 +101,30 @@ const PropertyDetail = ({ property }) => {
       <div className="flex-item flex-column justify-center property-info-section">
         <div className="property-info-content">
           {/* Property Title */}
-          <h1 className="title h1 property-title">{property.titulo}</h1>
+          <div className="property-title-section">
+            <h1 className="title h1 property-title">{property.titulo}</h1>
+          </div>
 
           {/* Property Address */}
-          <p className="text text-primary text-md property-address">
+          <button
+            className="text text-primary text-md property-address"
+            onClick={() => handleAddressClick(property.coordenadas_mapa)}
+            style={{
+              cursor: property.coordenadas_mapa ? "pointer" : "default",
+              textDecoration: property.coordenadas_mapa ? "underline" : "none",
+            }}
+            title={
+              property.coordenadas_mapa
+                ? "Haz clic para ver en Google Maps"
+                : ""
+            }
+            disabled={!property.coordenadas_mapa}
+          >
             {property.direccion}
-          </p>
+          </button>
+
+          {/* Property Status */}
+          {property.estatus && <StatusBadge status={property.estatus} />}
 
           {/* Property Description */}
           <p className="text property-description">{property.descripcion}</p>

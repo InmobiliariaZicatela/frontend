@@ -5,6 +5,8 @@
 // PropertiesList-specific variables (using global color scheme)
 $primary-color: #0065f2;
 $secondary-color: #6c757d;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
 $border-radius: 16px;
 $transition: all 0.3s ease;
 $breakpoint-sm: 576px;
@@ -237,7 +239,6 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 
   .properties-card-name {
     color: $primary-color;
-    font-weight: 600;
     font-size: 1.125rem;
     line-height: 1.3;
   }
@@ -248,6 +249,17 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     font-size: 0.875rem;
     margin: 0;
     line-height: 1.4;
+  }
+}
+
+.properties-card-direction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .status-badge {
+    margin-bottom: 0;
   }
 }
 
@@ -322,6 +334,11 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       font-size: 0.8rem;
     }
   }
+
+  .properties-card-direction {
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 // Small tablet / Large mobile styles (577px - 650px) - single column
@@ -334,6 +351,11 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   .properties-list-container {
     padding-left: 25px;
     padding-right: 25px;
+  }
+
+  .properties-card-direction {
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
 

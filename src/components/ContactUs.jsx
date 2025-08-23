@@ -41,7 +41,7 @@ const ContactUs = ({ data }) => {
     if (type === ContactMethod.Email) {
       return `mailto:${link}`;
     } else if (type === ContactMethod.Direccion) {
-      return "https://maps.app.goo.gl/BGaQr1yWDE29HqMr8";
+      return link;
     } else if (type === ContactMethod.Telefono) {
       return `tel:${link}`;
     } else if (type === ContactMethod.Whatsapp) {
@@ -73,14 +73,36 @@ const ContactUs = ({ data }) => {
 
   return (
     <div id="contacto" className="container flex-column contact-us-container">
-      {/* Header Section */}
-      <div className="flex-item flex-column contact-header">
-        <p className="text font-regular text-primary contact-header-subtitle">
-          {data?.texto_superior}
-        </p>
-        <p className="text font-semibold text-primary contact-header-title">
-          {data?.texto_inferior}
-        </p>
+      <div className="flex-item flex-row justify-between align-center">
+        {/* Header Section */}
+        <div className="flex-item flex-column contact-header">
+          <p className="text font-regular text-primary contact-header-subtitle">
+            {data?.texto_superior}
+          </p>
+          <p className="text font-semibold text-primary contact-header-title">
+            {data?.texto_inferior}
+          </p>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="flex-item flex-row contact-social-media-container">
+          <a
+            className="flex-item flex-row justify-center align-center contact-social-media-icon"
+            href="https://www.facebook.com/inmobiliariazicatelapxm"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Icon name="Facebook" size={40} color="#0065f2" />
+          </a>
+          <a
+            className="flex-item flex-row justify-center align-center contact-social-media-icon"
+            href="https://www.instagram.com/inmobiliaria.zicatela/ "
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Icon name="Instagram" size={40} color="#0065f2" />
+          </a>
+        </div>
       </div>
 
       {/* Contact Methods */}

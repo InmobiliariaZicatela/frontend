@@ -166,11 +166,19 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 }
 
+// Property title section styles
+.property-title-section {
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
 // Property title styles
 .property-title {
   color: $primary-color;
   margin-bottom: 0;
   line-height: 1.2;
+  flex: 1;
+  min-width: 0;
 
   @include property-detail-responsive(mobile) {
     font-size: 1.8rem;
@@ -180,12 +188,22 @@ $card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 // Property address styles
 .property-address {
   color: $secondary-color;
-  margin-bottom: $section-gap;
   font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0.2rem 0 0;
+  margin-bottom: calc($section-gap / 2);
+  text-align: left;
+  width: 100%;
 
   @include property-detail-responsive(mobile) {
     font-size: 1rem;
   }
+}
+
+.status-badge {
+  width: min-content;
+  margin-bottom: $section-gap;
 }
 
 // Property description styles

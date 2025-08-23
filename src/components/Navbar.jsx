@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -19,12 +20,29 @@ const Navbar = () => {
   const handleScrollClick = (e, sectionId) => {
     e.preventDefault();
     closeMobileMenu();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+
+    // If we're on the root page, just scroll to the section
+    if (pathname === "/") {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      // If we're on another page, navigate to root and then scroll
+      router.push("/");
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 100);
     }
   };
 
@@ -59,21 +77,24 @@ const Navbar = () => {
           <Link href="/" onClick={handleInicioClick}>
             Inicio
           </Link>
-          <Link
-            href="#nosotros"
+          <button
             onClick={(e) => handleScrollClick(e, "nosotros")}
+            className="nav-link-button"
           >
             Nosotros
-          </Link>
-          <Link
-            href="#contacto"
+          </button>
+          <button
             onClick={(e) => handleScrollClick(e, "contacto")}
+            className="nav-link-button"
           >
             Contacto
-          </Link>
-          <Link href="#faq" onClick={(e) => handleScrollClick(e, "faq")}>
+          </button>
+          <button
+            onClick={(e) => handleScrollClick(e, "faq")}
+            className="nav-link-button"
+          >
             FAQ
-          </Link>
+          </button>
           <Link href="/propiedades" className="btn">
             Propiedades
           </Link>
@@ -119,21 +140,24 @@ const Navbar = () => {
             <Link href="/" onClick={handleInicioClick}>
               Inicio
             </Link>
-            <Link
-              href="#nosotros"
+            <button
               onClick={(e) => handleScrollClick(e, "nosotros")}
+              className="nav-link-button mobile"
             >
               Nosotros
-            </Link>
-            <Link
-              href="#contacto"
+            </button>
+            <button
               onClick={(e) => handleScrollClick(e, "contacto")}
+              className="nav-link-button mobile"
             >
               Contacto
-            </Link>
-            <Link href="#faq" onClick={(e) => handleScrollClick(e, "faq")}>
+            </button>
+            <button
+              onClick={(e) => handleScrollClick(e, "faq")}
+              className="nav-link-button mobile"
+            >
               FAQ
-            </Link>
+            </button>
             <Link href="/propiedades" className="btn" onClick={closeMobileMenu}>
               Propiedades
             </Link>

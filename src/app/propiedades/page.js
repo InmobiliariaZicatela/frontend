@@ -5,16 +5,19 @@ import PropertiesList from "@/components/PropertiesList";
 import {
   getContactSectionServer,
   getPropiedadesPageServer,
+  getAllLandingPagesServer,
 } from "@/lib/strapi-server";
 
 export default async function PropertiesPage() {
   let landingData = null;
   let propertiesData = null;
+  let landingPages = null;
 
   try {
     // Fetch both contact and properties data at build time
+    landingPages = await getAllLandingPagesServer();
     const [contactResult, propertiesResult] = await Promise.all([
-      getContactSectionServer(),
+      getContactSectionServer(landingPages?.data[0]?.documentId),
       getPropiedadesPageServer(),
     ]);
 

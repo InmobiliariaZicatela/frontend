@@ -1922,6 +1922,49 @@ nav {
         }
       }
     }
+
+    // Navigation button styles
+    .nav-link-button {
+      background: none;
+      font-family: indivisible, sans-serif;
+      border: none;
+      color: #2563eb; // blue-600
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 400;
+      transition: color 0.2s ease;
+      position: relative;
+      cursor: pointer;
+      padding: 0;
+
+      @media (max-width: $breakpoint-sm) {
+        font-size: 0.875rem;
+      }
+
+      &:hover {
+        color: #1e40af; // blue-800
+      }
+
+      &:active {
+        color: #1e3a8a; // blue-900
+      }
+
+      // Underline effect on hover
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #1e40af; // blue-800
+        transition: width 0.2s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
   }
 
   // Mobile menu button (for responsive design)
@@ -2054,6 +2097,7 @@ nav {
         text-decoration: none;
         font-size: 1.5rem;
         font-weight: 500;
+        font-family: indivisible, sans-serif;
         transition: all 0.3s ease;
         padding: 1rem 2rem;
         border-radius: $border-radius;
@@ -2098,6 +2142,48 @@ nav {
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           }
+        }
+      }
+
+      // Mobile navigation button styles
+      .nav-link-button {
+        background: none;
+        border: none;
+        color: #2563eb; // blue-600
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 1rem 2rem;
+        border-radius: $border-radius;
+        position: relative;
+        cursor: pointer;
+        font-family: indivisible, sans-serif;
+
+        &:hover {
+          color: #1e40af; // blue-800
+          background-color: rgba(37, 99, 235, 0.1);
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          color: #1e3a8a; // blue-900
+        }
+
+        // Underline effect on hover
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background-color: #1e40af; // blue-800
+          transition: width 0.2s ease;
+        }
+
+        &:hover::after {
+          width: 100%;
         }
       }
     }
@@ -2242,18 +2328,23 @@ footer {
     display: flex;
     margin-bottom: 2rem;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 
     @media (min-width: $breakpoint-lg) {
       flex-direction: row;
       align-items: flex-start;
-      // justify-content: space-between;
+
+      .footer-social-media {
+        flex: 0 0 auto;
+        text-align: left;
+        max-width: 250px;
+        align-items: flex-start;
+      }
     }
 
     @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
       flex-direction: row;
       align-items: flex-start;
-      // justify-content: space-between;
     }
   }
 
@@ -2272,123 +2363,6 @@ footer {
     }
   }
 
-  // Services section
-  .footer-services {
-    h4 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: $dark-color;
-      margin-bottom: 1rem;
-    }
-
-    .services-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      li {
-        display: flex;
-        align-items: center;
-        color: #4b5563; // gray-600
-        font-size: 1rem;
-        line-height: 1.5;
-
-        &::before {
-          content: "";
-          width: 8px;
-          height: 8px;
-          background-color: $primary-color;
-          border-radius: 50%;
-          margin-right: 0.75rem;
-          flex-shrink: 0;
-        }
-      }
-    }
-
-    // Mobile: Add border and padding for separation
-    @media (max-width: $breakpoint-md) {
-      .services-list {
-        padding: 0.5rem 0 0.5rem 1rem;
-      }
-    }
-  }
-
-  // Email subscription section
-  .footer-subscription {
-    flex: 1;
-    max-width: 400px;
-
-    h4 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: $primary-color;
-      margin-bottom: 0.75rem;
-    }
-
-    .subscription-form {
-      position: relative;
-
-      input[type="email"] {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 2px solid #dbeafe; // blue-200
-        border-radius: $border-radius;
-        background-color: #eff6ff; // blue-50
-        color: $dark-color;
-        font-size: 1rem;
-        line-height: 1.5;
-        transition: $transition;
-
-        &::placeholder {
-          color: #9ca3af; // gray-400
-        }
-
-        &:hover {
-          border-color: #93c5fd; // blue-300
-        }
-
-        &:focus {
-          outline: none;
-          border-color: $primary-color;
-          box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
-        }
-      }
-
-      .submit-button {
-        position: absolute;
-        right: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: $primary-color;
-        cursor: pointer;
-        padding: 0.25rem;
-        border-radius: 4px;
-        transition: $transition;
-
-        &:hover {
-          color: color.scale($primary-color, $lightness: -10%);
-          background-color: rgba($primary-color, 0.1);
-        }
-
-        svg {
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
-
-    .subscription-text {
-      font-size: 0.875rem;
-      color: #6b7280; // gray-500
-      margin-top: 0.5rem;
-    }
-  }
-
   // Copyright section
   .footer-copyright {
     padding-top: 1rem;
@@ -2399,6 +2373,80 @@ footer {
       color: #6b7280; // gray-500
       font-size: 0.875rem;
       margin: 0;
+    }
+  }
+
+  // Social Media section
+  .footer-social-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    .social-media-icons {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-media-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #f8fafc; // slate-50
+      border: 2px solid #e2e8f0; // slate-200
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 50%;
+      }
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: $primary-color;
+
+        &::before {
+          opacity: 1;
+        }
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+      }
+
+      &:active {
+        transform: translateY(-1px);
+        transition: transform 0.1s ease;
+      }
+
+      svg {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        z-index: 1;
+      }
+
+      &:hover svg {
+        transform: scale(1.15);
+      }
     }
   }
 
@@ -2425,6 +2473,21 @@ footer {
         font-size: 1rem;
       }
     }
+
+    .footer-social-media {
+      .social-media-title {
+        font-size: 1rem;
+      }
+
+      .social-media-icons {
+        gap: 1rem;
+      }
+
+      .social-media-link {
+        width: 44px;
+        height: 44px;
+      }
+    }
   }
 
   @media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
@@ -2444,6 +2507,11 @@ footer {
       flex: 1;
       max-width: 300px;
     }
+
+    .footer-social-media {
+      flex: 0 0 auto;
+      max-width: 200px;
+    }
   }
 
   @media (max-width: $breakpoint-sm) {
@@ -2461,6 +2529,21 @@ footer {
 
     .footer-main {
       gap: 2.5rem;
+    }
+
+    .footer-social-media {
+      .social-media-title {
+        font-size: 0.875rem;
+      }
+
+      .social-media-icons {
+        gap: 0.75rem;
+      }
+
+      .social-media-link {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 }
@@ -2650,5 +2733,45 @@ footer {
   }
   .d-lg-flex {
     display: flex;
+  }
+}
+
+// ============================================================================
+// STATUS BADGE COMPONENT
+// ============================================================================
+
+.status-badge {
+  display: flex;
+  padding: 4px 12px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-badge-text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: indivisible, sans-serif;
+}
+
+// Red variant for "Vendido"
+.status-badge-red {
+  border: 1px solid $danger-color;
+  background-color: rgba($danger-color, 0.1);
+
+  .status-badge-text {
+    color: $danger-color;
+  }
+}
+
+// Yellow variant for "Apartado"
+.status-badge-yellow {
+  border: 1px solid $warning-color;
+  background-color: rgba($warning-color, 0.1);
+
+  .status-badge-text {
+    color: $warning-color;
   }
 }

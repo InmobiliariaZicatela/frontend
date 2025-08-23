@@ -7,13 +7,18 @@ import ContactUs from "@/components/ContactUs";
 import Testimonials from "@/components/Testimonials";
 import Characteristics from "@/components/Characteristics";
 import LastCallToAction from "@/components/LastCallToAction";
-import { getLandingPageServer } from "@/lib/strapi-server";
+import {
+  getAllLandingPagesServer,
+  getLandingPageServer,
+} from "@/lib/strapi-server";
 
 export default async function Home() {
   let landingData = null;
+  let landingPages = null;
 
   try {
-    landingData = await getLandingPageServer();
+    landingPages = await getAllLandingPagesServer();
+    landingData = await getLandingPageServer(landingPages?.data[0]?.documentId);
   } catch (error) {
     console.error("Error fetching from Strapi:", error);
   }

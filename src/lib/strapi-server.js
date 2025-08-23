@@ -72,15 +72,17 @@ export async function getAvailableContentTypes() {
   return null;
 }
 
-export async function getLandingPageServer() {
-  const documentId = process.env.LANDING_PAGE_ID || "h6j1pdxsrkitrlvi5d2b0vnq";
+export async function getAllLandingPagesServer() {
+  return fetchFromStrapiServer("inicios?populate=*");
+}
+
+export async function getLandingPageServer(documentId) {
   return fetchFromStrapiServer(
     `inicios/${documentId}?populate[Hero][populate][imagen][fields]=*&populate[caracteristicas][populate]=*&populate[quienes_somos][populate][puntos][populate]=*&populate[quienes_somos][populate][imagen][fields]=*&populate[Testimonios][populate][imagen][fields]=*&populate[Contacto][populate][contactos][populate][tipo]=*&populate[Contacto][populate][contactos][populate][links]=*&populate[preguntas_respuestas][populate][preguntas_respuestas][populate]=*&populate[ultima_llamada][populate]=*`
   );
 }
 
-export async function getContactSectionServer() {
-  const documentId = process.env.LANDING_PAGE_ID || "h6j1pdxsrkitrlvi5d2b0vnq";
+export async function getContactSectionServer(documentId) {
   return fetchFromStrapiServer(
     `inicios/${documentId}?populate[Contacto][populate][contactos][populate][tipo]=*&populate[Contacto][populate][contactos][populate][links]=*`
   );

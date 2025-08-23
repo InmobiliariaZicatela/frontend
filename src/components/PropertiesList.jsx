@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import PropertyCard from "./PropertyCard";
 import Icon from "./Icon";
-import { useRouter } from "next/navigation";
+
 import "../styles/components/properties-list.scss";
 
 const PropertiesList = ({ initialProperties = [] }) => {
-  const router = useRouter();
   const [properties, setProperties] = useState(initialProperties);
 
   const [filters, setFilters] = useState({
@@ -29,10 +29,6 @@ const PropertiesList = ({ initialProperties = [] }) => {
     });
   };
 
-  const handlePropertyClick = (documentId) => {
-    router.push(`/propiedades/${documentId}`);
-  };
-
   // Generate unique neighborhoods from properties data
   const getUniqueNeighborhoods = () => {
     if (!properties || properties.length === 0) return [];
@@ -43,13 +39,6 @@ const PropertiesList = ({ initialProperties = [] }) => {
       .filter((nombre, index, arr) => arr.indexOf(nombre) === index); // Remove duplicates
 
     return neighborhoods.sort(); // Sort alphabetically
-  };
-
-  const formatPrice = (price) => {
-    return price.toLocaleString("es-MX", {
-      style: "currency",
-      currency: "MXN",
-    });
   };
 
   // Initialize properties with the passed data
@@ -147,9 +136,9 @@ const PropertiesList = ({ initialProperties = [] }) => {
 
       {/* Results Heading */}
       <div className="flex-item flex-row properties-results-heading">
-        <h2 className="text font-semibold text-lg text-primary">
+        <h2 className="text font-medium text-lg text-primary">
           Hemos encontrado{" "}
-          <span className="text font-bold text-2xl text-primary">
+          <span className="text font-semibold text-2xl text-primary">
             {filteredProperties.length}
           </span>{" "}
           propiedades
@@ -159,45 +148,7 @@ const PropertiesList = ({ initialProperties = [] }) => {
       {/* Properties Grid */}
       <div className="properties-grid">
         {filteredProperties.map((property) => (
-          <div
-            key={property.id}
-            className="properties-card"
-            onClick={() => handlePropertyClick(property.documentId)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handlePropertyClick(property.documentId);
-              }
-            }}
-          >
-            {/* Property Image */}
-            <div className="properties-card-image-container">
-              <img
-                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${property.imagenes[0]?.url}`}
-                alt={property.titulo}
-                className="properties-card-image"
-              />
-            </div>
-
-            {/* Property Details */}
-            <div className="properties-card-details">
-              <div className="properties-card-info">
-                <h3 className="text font-semibold text-lg text-primary properties-card-name">
-                  {property.titulo}
-                </h3>
-                <h3 className="text font-semibold text-lg text-primary properties-card-name">
-                  {formatPrice(property.precio)}
-                </h3>
-              </div>
-              <div className="properties-card-direction">
-                <p className="text font-normal text-sm text-dark properties-card-address">
-                  {property.direccion}
-                </p>
-              </div>
-            </div>
-          </div>
+          <PropertyCard key={property.id} property={property} />
         ))}
       </div>
     </div>

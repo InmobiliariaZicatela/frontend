@@ -191,6 +191,15 @@ $header-subtitle-margin-top: -15px;
   }
 }
 
+.contact-social-media-container {
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.contact-social-media-icon {
+  padding: 10px;
+}
+
 // ============================================================================
 // RESPONSIVE BREAKPOINTS
 // ============================================================================
@@ -318,6 +327,12 @@ $header-subtitle-margin-top: -15px;
     .contact-header-title {
       font-size: 2.75rem;
     }
+  }
+
+  .contact-social-media-container {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 }
 

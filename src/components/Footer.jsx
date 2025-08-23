@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from "./Icon";
 
 const Footer = () => {
   return (
@@ -16,21 +17,30 @@ const Footer = () => {
             />
           </div>
 
-          {/* Right side - Email subscription */}
-          {/* <div className="footer-subscription">
-            <h4>Suscripción</h4>
-            <div className="subscription-form">
-              <input type="email" placeholder="Email" />
-              <button className="submit-button">
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                </svg>
-              </button>
+          {/* Right side - Social Media */}
+          <div className="footer-social-media">
+            <p className="text font-semibold text-primary">Síguenos</p>
+            <div className="social-media-icons">
+              <a
+                className="social-media-link"
+                href="https://www.facebook.com/inmobiliariazicatelapxm"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Síguenos en Facebook"
+              >
+                <Icon name="Facebook" size={24} color="#0065f2" />
+              </a>
+              <a
+                className="social-media-link"
+                href="https://www.instagram.com/inmobiliaria.zicatela/"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Síguenos en Instagram"
+              >
+                <Icon name="Instagram" size={24} color="#e4405f" />
+              </a>
             </div>
-            <p className="subscription-text">
-              Texto para suscribirse a nuestros emails
-            </p>
-          </div> */}
+          </div>
         </div>
 
         {/* Copyright */}
