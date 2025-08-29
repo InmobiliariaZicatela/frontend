@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import FAQ from "@/components/FAQ";
 import Hero from "@/components/Hero";
 import Spacer from "@/components/Spacer";
@@ -7,25 +9,43 @@ import ContactUs from "@/components/ContactUs";
 import Testimonials from "@/components/Testimonials";
 import Characteristics from "@/components/Characteristics";
 import LastCallToAction from "@/components/LastCallToAction";
-import {
-  getAllLandingPagesServer,
-  getLandingPageServer,
-} from "@/lib/strapi-server";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default async function Home() {
-  let landingData = null;
-  let landingPages = null;
+// Force dynamic rendering - no pre-render
+export const dynamic = "force-dynamic";
 
-  try {
-    landingPages = await getAllLandingPagesServer();
-    landingData = await getLandingPageServer(landingPages?.data[0]?.documentId);
-  } catch (error) {
-    console.error("Error fetching from Strapi:", error);
-  }
+export default function Home() {
+  const [landingData, setLandingData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!landingData) {
-    console.warn(
-      "No se pudo obtener datos de Strapi. Los componentes mostrarán contenido estático."
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data dynamically on client side
+        const [landingPagesResult, landingDataResult] = await Promise.all([
+          fetch("/api/landing-pages"),
+          fetch("/api/landing-data"),
+        ]);
+
+        const landingPages = await landingPagesResult.json();
+        const landingData = await landingDataResult.json();
+
+        setLandingData(landingData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20">
+        <LoadingSpinner message="Cargando información de la inmobiliaria..." />
+      </div>
     );
   }
 

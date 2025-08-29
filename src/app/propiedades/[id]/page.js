@@ -5,6 +5,7 @@ import PropertyMap from "@/components/PropertyMap";
 import PropertyDetail from "@/components/PropertyDetail";
 import Characteristics from "@/components/Characteristics";
 import PropertyExtraDetails from "@/components/PropertyExtraDetails";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import {
   getContactSectionServer,
   getPropertyByDocumentIdServer,
@@ -34,9 +35,12 @@ export default async function PropertyDetailPage({ params }) {
     console.error("Error fetching from Strapi:", error);
   }
 
+  // Show loading spinner while data is being fetched
   if (!propertyData) {
-    console.warn(
-      "No se pudo obtener datos de Strapi. Los componentes mostrarán contenido estático."
+    return (
+      <div className="fullscreen-loader">
+        <LoadingSpinner message="Cargando propiedad..." />
+      </div>
     );
   }
 

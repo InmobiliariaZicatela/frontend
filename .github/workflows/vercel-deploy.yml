@@ -1,4 +1,4 @@
-name: Build and Test for Vercel
+name: Build and Validate for Vercel Deployment
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build-and-validate:
+    name: Build and Validate Next.js Application
     runs-on: ubuntu-latest
     
     steps:
@@ -32,4 +33,4 @@ jobs:
       run: npm run build
         
     - name: Build success
-      run: echo "✅ Build completed successfully! Vercel will auto-deploy from GitHub."
+      run: echo "✅ Build and validation completed successfully! Vercel will auto-deploy from GitHub."
