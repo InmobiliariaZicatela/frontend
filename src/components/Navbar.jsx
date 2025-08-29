@@ -65,11 +65,13 @@ const Navbar = () => {
       <div className="nav-container">
         {/* Logo and Company Name */}
         <div className="logo-container">
-          <img
-            src="/images/logo.png"
-            alt="Zicatela Inmobiliaria Logo"
-            className="logo-image"
-          />
+          <Link href="/" className="logo-link">
+            <img
+              src="/images/logo.png"
+              alt="Zicatela Inmobiliaria Logo"
+              className="logo-image"
+            />
+          </Link>
         </div>
 
         {/* Desktop Navigation Links */}
