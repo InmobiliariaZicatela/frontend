@@ -1,30 +1,49 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Spacer from "@/components/Spacer";
 import ContactUs from "@/components/ContactUs";
 import PropertiesList from "@/components/PropertiesList";
-import {
-  getContactSectionServer,
-  getPropiedadesPageServer,
-  getAllLandingPagesServer,
-} from "@/lib/strapi-server";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default async function PropertiesPage() {
-  let landingData = null;
-  let landingPages = null;
-  let propertiesData = null;
+// Force dynamic rendering - no pre-render
+export const dynamic = "force-dynamic";
 
-  try {
-    // Fetch both contact and properties data at build time
-    landingPages = await getAllLandingPagesServer();
-    const [contactResult, propertiesResult] = await Promise.all([
-      getContactSectionServer(landingPages?.data[0]?.documentId),
-      getPropiedadesPageServer(),
-    ]);
+export default function PropertiesPage() {
+  const [landingData, setLandingData] = useState(null);
+  const [propertiesData, setPropertiesData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    landingData = contactResult;
-    propertiesData = propertiesResult;
-  } catch (error) {
-    console.error("Error fetching from Strapi:", error);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data dynamically on client side
+        const [contactResult, propertiesResult] = await Promise.all([
+          fetch("/api/contact"),
+          fetch("/api/properties"),
+        ]);
+
+        const contactData = await contactResult.json();
+        const properties = await propertiesResult.json();
+
+        setLandingData(contactData);
+        setPropertiesData(properties);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20">
+        <LoadingSpinner message="Cargando propiedades y información de contacto..." />
+      </div>
+    );
   }
 
   return (

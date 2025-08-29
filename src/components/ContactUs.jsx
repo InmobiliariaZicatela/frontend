@@ -2,6 +2,7 @@
 
 import React from "react";
 import Icon from "./Icon";
+import LoadingSpinner from "./LoadingSpinner";
 import "../styles/components/contact-us.scss";
 
 const ContactUs = ({ data }) => {
@@ -20,10 +21,11 @@ const ContactUs = ({ data }) => {
   };
 
   // Map contact methods based on data structure
-  const contactMethods = data?.contactos?.map((contact) => ({
-    ...contact,
-    icon: typeToIcon[contact.tipo.tipo],
-  }));
+  const contactMethods =
+    data?.contactos?.map((contact) => ({
+      ...contact,
+      icon: typeToIcon[contact.tipo.tipo],
+    })) || [];
 
   // Function to handle WhatsApp click
   const handleWhatsAppClick = (phoneNumber) => {
@@ -71,16 +73,25 @@ const ContactUs = ({ data }) => {
     }
   };
 
+  // Early return if no data
+  if (!data) {
+    return (
+      <div id="contacto" className="container flex-column contact-us-container">
+        <LoadingSpinner message="Cargando información de contacto..." />
+      </div>
+    );
+  }
+
   return (
     <div id="contacto" className="container flex-column contact-us-container">
       <div className="flex-item flex-row justify-between align-center">
         {/* Header Section */}
         <div className="flex-item flex-column contact-header">
           <p className="text font-regular text-primary contact-header-subtitle">
-            {data?.texto_superior}
+            {data?.texto_superior || "Contáctanos"}
           </p>
           <p className="text font-semibold text-primary contact-header-title">
-            {data?.texto_inferior}
+            {data?.texto_inferior || "Estamos aquí para ayudarte"}
           </p>
         </div>
 
@@ -107,45 +118,59 @@ const ContactUs = ({ data }) => {
 
       {/* Contact Methods */}
       <div className="flex-item flex-row justify-between contact-methods-container">
-        {contactMethods.map((method, index) => (
-          <div
-            key={index}
-            className="flex-item flex-column align-start contact-method-card"
-          >
-            {/* Circular Icon */}
-            <div className="mb-3 contact-icon">
-              <Icon name={method.icon} size={26} color="#0065f2" />
+        {contactMethods && contactMethods.length > 0 ? (
+          contactMethods.map((method, index) => (
+            <div
+              key={index}
+              className="flex-item flex-column align-start contact-method-card"
+            >
+              {/* Circular Icon */}
+              <div className="mb-3 contact-icon">
+                <Icon name={method.icon} size={26} color="#0065f2" />
+              </div>
+              {/* Title */}
+              <h3 className="text font-medium text-xl text-primary contact-title">
+                {method.texto}
+              </h3>
+              {/* Description */}
+              <p className="text font-light text-sm text-dark contact-description">
+                {method.disponibilidad}
+              </p>
+              {/* Contact Detail */}
+              <div className="flex-item flex-column contact-detail-container">
+                {method.links && method.links.length > 0 ? (
+                  method.links.map((link, lineIndex) => (
+                    <a
+                      key={lineIndex}
+                      href={getContactLink(method.tipo.tipo, link.link)}
+                      {...getContactAttributes(method.tipo.tipo)}
+                      onClick={(e) =>
+                        handleContactClick(method.tipo.tipo, link.link, e)
+                      }
+                      className="text font-regular text-sm text-primary contact-detail"
+                      style={{
+                        marginBottom:
+                          lineIndex < method.links.length - 1 ? "2px" : "0",
+                      }}
+                    >
+                      {link.texto_link}
+                    </a>
+                  ))
+                ) : (
+                  <p className="text font-light text-sm text-dark">
+                    Sin enlaces disponibles
+                  </p>
+                )}
+              </div>
             </div>
-            {/* Title */}
-            <h3 className="text font-medium text-xl text-primary contact-title">
-              {method.texto}
-            </h3>
-            {/* Description */}
-            <p className="text font-light text-sm text-dark contact-description">
-              {method.disponibilidad}
+          ))
+        ) : (
+          <div className="flex-item flex-column align-center">
+            <p className="text font-light text-sm text-dark">
+              Sin métodos de contacto disponibles
             </p>
-            {/* Contact Detail */}
-            <div className="flex-item flex-column contact-detail-container">
-              {method.links.map((link, lineIndex) => (
-                <a
-                  key={lineIndex}
-                  href={getContactLink(method.tipo.tipo, link.link)}
-                  {...getContactAttributes(method.tipo.tipo)}
-                  onClick={(e) =>
-                    handleContactClick(method.tipo.tipo, link.link, e)
-                  }
-                  className="text font-regular text-sm text-primary contact-detail"
-                  style={{
-                    marginBottom:
-                      lineIndex < method.links.length - 1 ? "2px" : "0",
-                  }}
-                >
-                  {link.texto_link}
-                </a>
-              ))}
-            </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
