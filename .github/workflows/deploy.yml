@@ -45,7 +45,9 @@ jobs:
         
     - name: Deploy to S3
       run: |
-        aws s3 sync out/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+        aws s3 sync .next s3://${{ secrets.S3_BUCKET_NAME }}/_next --delete --cache-control "max-age=31536000,public"
+        aws s3 sync public s3://${{ secrets.S3_BUCKET_NAME }}/public --delete --cache-control "max-age=31536000,public"
+        aws s3 cp .next s3://${{ secrets.S3_BUCKET_NAME }}/_next --recursive --exclude "*" --include "*.html" --cache-control "no-cache,no-store,must-revalidate"
         
     - name: Invalidate CloudFront cache
       run: |
