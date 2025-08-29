@@ -1,4 +1,4 @@
-name: Deploy to AWS S3 and CloudFront
+name: Build and Test for Vercel
 
 on:
   push:
@@ -6,9 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-test:
     runs-on: ubuntu-latest
-    environment: production
     
     steps:
     - name: Checkout code
@@ -36,24 +35,5 @@ jobs:
         STRAPI_TOKEN: ${{ secrets.STRAPI_TOKEN }}
         NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
         
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        
-    - name: Deploy to S3
-      run: |
-        aws s3 sync .next s3://${{ secrets.S3_BUCKET_NAME }}/_next --delete --cache-control "max-age=31536000,public"
-        aws s3 sync public s3://${{ secrets.S3_BUCKET_NAME }}/public --delete --cache-control "max-age=31536000,public"
-        aws s3 cp .next s3://${{ secrets.S3_BUCKET_NAME }}/_next --recursive --exclude "*" --include "*.html" --cache-control "no-cache,no-store,must-revalidate"
-        
-    - name: Invalidate CloudFront cache
-      run: |
-        aws cloudfront create-invalidation \
-          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-          --paths "/*"
-          
-    - name: Deploy success
-      run: echo "Deployment completed successfully!"
+    - name: Build success
+      run: echo "✅ Build completed successfully! Vercel will auto-deploy from GitHub."
