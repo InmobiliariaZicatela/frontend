@@ -10,8 +10,8 @@ import {
 
 export default async function PropertiesPage() {
   let landingData = null;
-  let propertiesData = null;
   let landingPages = null;
+  let propertiesData = null;
 
   try {
     // Fetch both contact and properties data at build time

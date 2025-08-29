@@ -22,7 +22,8 @@
       "Quantity": 0
     },
     "ViewerCertificate": {
-      "CloudFrontDefaultCertificate": true,
+      "ACMCertificateArn": "arn:aws:acm:us-east-1:781517218881:certificate/fc29738c-398f-4def-bbc5-0f127de87398",
+      "SSLSupportMethod": "sni-only",
       "MinimumProtocolVersion": "TLSv1.2_2021"
     },
     "Compress": true,

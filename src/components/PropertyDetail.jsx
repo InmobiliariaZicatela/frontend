@@ -11,13 +11,9 @@ const PropertyDetail = ({ property }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageLoadError, setImageLoadError] = useState(false);
 
-  // Get Strapi URL with fallback
-  const strapiUrl =
-    process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-
   // Transform images data for PropertyPhotos component
   const transformedImages =
-    property?.imagenes?.map((image) => `${strapiUrl}${image.url}`) || [];
+    property?.imagenes?.map((image) => `${image.url}`) || [];
 
   const handleWhatsAppContact = () => {
     const phoneNumber = "529541286282";
@@ -29,10 +25,7 @@ const PropertyDetail = ({ property }) => {
   };
 
   const handlePDFDownload = (pdfInfo) => {
-    window.open(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}${pdfInfo.url}`,
-      "_blank"
-    );
+    window.open(`${pdfInfo.url}`, "_blank");
   };
 
   const formatPrice = (price) => {
@@ -185,7 +178,7 @@ const PropertyDetail = ({ property }) => {
                   </div>
                 ) : (
                   <img
-                    src={`${strapiUrl}${property.imagenes[activeImageIndex].url}`}
+                    src={`${property.imagenes[activeImageIndex].url}`}
                     alt={property.titulo}
                     className="main-image"
                     onClick={handleImageClick}
@@ -208,7 +201,7 @@ const PropertyDetail = ({ property }) => {
                       onClick={() => handleImageChange(index)}
                     >
                       <img
-                        src={`${strapiUrl}${image.url}`}
+                        src={`${image.url}`}
                         alt={`${property.titulo} - Imagen ${index + 1}`}
                         onError={(e) => {
                           e.target.style.display = "none";

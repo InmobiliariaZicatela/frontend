@@ -8,28 +8,13 @@ import PropertyExtraDetails from "@/components/PropertyExtraDetails";
 import {
   getContactSectionServer,
   getPropertyByDocumentIdServer,
-  getPropiedadesPageServer,
+  getAllLandingPagesServer,
 } from "@/lib/strapi-server";
 
-// Generate static params for all properties at build time
-export async function generateStaticParams() {
-  try {
-    const properties = await getPropiedadesPageServer();
-
-    const params =
-      properties?.data?.map((property) => {
-        const id = property.documentId; // Use documentId instead of numeric id
-        return { id };
-      }) || [];
-
-    return params;
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
-}
+export const dynamic = "force-dynamic";
 
 export default async function PropertyDetailPage({ params }) {
+  let landingPages = null;
   let landingData = null;
   let propertyData = null;
 
@@ -37,8 +22,9 @@ export default async function PropertyDetailPage({ params }) {
 
   try {
     // Use documentId to fetch property data
+    landingPages = await getAllLandingPagesServer();
     const [contactResult, propertyResult] = await Promise.all([
-      getContactSectionServer(),
+      getContactSectionServer(landingPages?.data[0]?.documentId),
       getPropertyByDocumentIdServer(documentId),
     ]);
 

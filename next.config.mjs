@@ -1,6 +1,5 @@
 /** @type {import('next/config').NextConfig} */
 const nextConfig = {
-  output: "export",
   trailingSlash: true,
   images: {
     unoptimized: true,

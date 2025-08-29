@@ -16,10 +16,7 @@ const Testimonials = ({ data }) => {
           </p>
 
           <div className="mb-3 testimonial-avatar">
-            <img
-              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${testimonial.imagen?.url}`}
-              alt={testimonial.nombre}
-            />
+            <img src={`${testimonial.imagen?.url}`} alt={testimonial.nombre} />
           </div>
 
           <p className="text text-xl font-medium text-primary testimonial-client-name">

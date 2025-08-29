@@ -35,7 +35,7 @@ const PropertyCard = ({ property }) => {
       {/* Property Image */}
       <div className="properties-card-image-container">
         <img
-          src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${property.imagenes[0]?.url}`}
+          src={`${property.imagenes[0]?.url}`}
           alt={property.titulo}
           className="properties-card-image"
         />

@@ -3,32 +3,25 @@ import Icon from "./Icon";
 import "../styles/components/characteristics.scss";
 
 const Characteristics = ({ data }) => {
-  const characteristics = [
-    {
-      id: 1,
-      title: data[0]?.titulo,
-      description: data[0]?.descripcion,
-      icon: "Home",
-    },
-    {
-      id: 2,
-      title: data[1]?.titulo,
-      description: data[1]?.descripcion,
-      icon: "MapPin",
-    },
-    {
-      id: 3,
-      title: data[2]?.titulo,
-      description: data[2]?.descripcion,
-      icon: "Heart",
-    },
-  ];
+  // Array de iconos disponibles para las características
+  const availableIcons = ["Home", "MapPin", "Heart", "Star", "Shield", "Zap"];
+
+  // Filtrar solo los datos que tienen título y descripción
+  const validCharacteristics =
+    data
+      ?.filter((item) => item?.titulo && item?.descripcion)
+      ?.map((item, index) => ({
+        id: index + 1,
+        title: item.titulo,
+        description: item.descripcion,
+        icon: availableIcons[index % availableIcons.length], // Asignar icono de forma cíclica
+      })) || [];
 
   return (
     <div
       className={`container flex-row justify-around characteristics-container`}
     >
-      {characteristics.map((characteristic) => (
+      {validCharacteristics.map((characteristic) => (
         <div
           key={characteristic.id}
           className="flex-item flex-column justify-start characteristic-item"

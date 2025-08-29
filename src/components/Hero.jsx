@@ -24,7 +24,7 @@ const Hero = ({ data }) => {
         }
         setImageLoaded(true);
       };
-      img.src = `${process.env.NEXT_PUBLIC_STRAPI_URL}${data.imagen.url}`;
+      img.src = `${data.imagen.url}`;
     }
   }, [data?.imagen?.url]);
 
@@ -62,7 +62,7 @@ const Hero = ({ data }) => {
           }`}
         >
           <img
-            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${data?.imagen?.url}`}
+            src={`${data?.imagen?.url}`}
             alt="Hero"
             onLoad={() => setImageLoaded(true)}
           />

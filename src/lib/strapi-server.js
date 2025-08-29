@@ -94,6 +94,6 @@ export async function getPropiedadesPageServer() {
 
 export async function getPropertyByDocumentIdServer(documentId) {
   return fetchFromStrapiServer(
-    `propiedads/${documentId}?populate[imagenes][fields]=*&populate[pdf][fields]=*&populate[caracteristicas][populate]=*&populate[encabezado][populate][imagen][fields]=*&populate[colonia][populate]=*`
+    `propiedads/${documentId}?populate[imagenes][fields]=*&populate[pdf][fields]=*&populate[caracteristicas][populate]=*&populate[encabezado][populate][imagen][fields]=*&populate[encabezado][populate][puntos][populate]=*&populate[colonia][populate]=*`
   );
 }

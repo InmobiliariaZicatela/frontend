@@ -9,7 +9,7 @@ const WhoWeAre = ({ data }) => {
     >
       <div className="flex-item flex-column justify-center align-content-center who-we-are-illustration">
         <img
-          src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${data?.imagen?.url}`}
+          src={`${data?.imagen?.url}`}
           alt="Professional real estate team working together"
           className="who-we-are-image"
         />

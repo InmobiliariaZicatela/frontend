@@ -11,7 +11,7 @@ const PropertyExtraDetails = ({ data }) => {
         {/* Unsplash Image */}
         <div className="image-container aspect-horizontal property-extra-details-image">
           <img
-            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${data?.imagen?.url}`}
+            src={`${data?.imagen?.url}`}
             alt="Property development and real estate"
             className="property-extra-details-img"
           />
