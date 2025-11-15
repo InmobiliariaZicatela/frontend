@@ -15,6 +15,9 @@ export default function PropertiesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Reset loading state when component mounts
+    setLoading(true);
+
     const fetchData = async () => {
       try {
         // Fetch data dynamically on client side
@@ -36,12 +39,17 @@ export default function PropertiesPage() {
     };
 
     fetchData();
+
+    // Cleanup function to reset state when component unmounts
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20">
-        <LoadingSpinner message="Cargando propiedades y información de contacto..." />
+      <div className="fullscreen-loader" key="properties-loading">
+        <LoadingSpinner message="Cargando propiedades..." />
       </div>
     );
   }

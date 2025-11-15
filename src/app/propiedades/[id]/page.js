@@ -38,8 +38,8 @@ export default async function PropertyDetailPage({ params }) {
   // Show loading spinner while data is being fetched
   if (!propertyData) {
     return (
-      <div className="fullscreen-loader">
-        <LoadingSpinner message="Cargando propiedad..." />
+      <div className="fullscreen-loader" key="property-loading">
+        <LoadingSpinner message="Cargando información de la propiedad..." />
       </div>
     );
   }

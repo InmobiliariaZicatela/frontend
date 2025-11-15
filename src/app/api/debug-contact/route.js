@@ -4,7 +4,7 @@ export async function GET() {
   try {
     // Get landing pages to get the document ID
     const landingPagesResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/inicios?populate=*`,
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/inicios`,
       {
         headers: {
           Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
